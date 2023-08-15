@@ -8,6 +8,13 @@ import Login from './features/auth/Login';
 import './App.scss';
 import { user } from './features/auth/auth';
 import i18n from './i18n';
+import { meetInviteEmail, string255NotRequired } from './app/helpers/formValidators';
+
+const inviteValidators = {
+  email: meetInviteEmail,
+  message: string255NotRequired,
+  name: string255NotRequired
+}
 
 function App() {
   const currentUser = useSelector(user);
@@ -48,6 +55,7 @@ function App() {
               <Invite
                 cancel={closeInviteModal}
                 currentUser={currentUser}
+                validators={inviteValidators}
                 t={i18n.t}
               />
             </Modal.Body>

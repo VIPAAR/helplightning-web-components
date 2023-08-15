@@ -4,7 +4,7 @@ import React from 'react';
 import InviteForm from './InviteForm';
 import './Invite.scss';
 
-const Invite = ({ invite, cancel, t, currentUser, dialCode, inviteLink, onCopyToClipboard }) => {
+const Invite = ({ invite, cancel, t, currentUser, initialValues, validators, inviteLink, onCopyToClipboard }) => {
   const [sent, setSent] = React.useState(false)
 
   const onSubmit = (values) => {
@@ -40,8 +40,9 @@ const Invite = ({ invite, cancel, t, currentUser, dialCode, inviteLink, onCopyTo
         handleCopy={handleCopy}
         initialValues={{
           oneTime: getOneTime(),
-          phone: dialCode
+          ...initialValues
         }}
+        validators={validators}
         sent={sent}
         t={t}
       />

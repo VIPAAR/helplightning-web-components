@@ -30,17 +30,24 @@ const mergeStateWithValues = (state, values) => {
   }, {});
 }
 
-function InviteForm({ onCancel, t, currentUser, initialValues, sent, inviteLink, handleCopy }) {
+const pickValues = (state) => {
+  const { name, email, phone, message, oneTime } = state;
+  return { name: name.value, email: email.value, phone: phone.value, message: message.value, oneTime: oneTime.value }
+}
+
+function InviteForm({ onCancel, onSubmit, t, currentUser, initialValues, validators, sent, inviteLink, handleCopy }) {
   const [fields, setFields] = useState(mergeStateWithValues(defaultState, initialValues));
 
   const onChange = (field) => {
     return (e) => {
       const value = e.target.value;
+      const error = validators && validators[field] && validators[field](value, pickValues(fields));
       setFields({
         ...fields,
         [field]: {
           ...fields[field],
           value,
+          error,
           touched: true
         }
       });
@@ -49,9 +56,7 @@ function InviteForm({ onCancel, t, currentUser, initialValues, sent, inviteLink,
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email, phone, message, oneTime } = fields;
-    const { onSubmit } = this.props;
-    onSubmit({ name: name.value, email: email.value, phone: phone.value, message: message.value, oneTime: oneTime.value });
+    onSubmit(pickValues(fields));
     setFields(defaultState);
   }
 
