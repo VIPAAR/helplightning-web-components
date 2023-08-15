@@ -5,12 +5,12 @@ module.exports = {
   mode: isDev ? 'development' : 'production',
 
   entry: {
-    "hl-contacts": ['./src/index.js']
+    "helplightning-web-components": ['./src/index.js']
   },
 
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'contacts.js',
+    filename: 'helplightning-web-components.js',
     libraryTarget: 'umd'
   },
 
