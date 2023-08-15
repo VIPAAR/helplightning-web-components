@@ -27,7 +27,7 @@ const Invite = ({ invite, cancel, t, currentUser, dialCode, inviteLink, onCopyTo
 
   const handleCopy = () => {
     inviteLink && navigator.clipboard.writeText(inviteLink)
-    onCopyToClipboard()
+    onCopyToClipboard && onCopyToClipboard()
   }
 
   return (

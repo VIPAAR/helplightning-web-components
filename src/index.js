@@ -5,7 +5,6 @@ import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.scss';
-import Contacts from './features/contacts/components/ContactsView';
 
 if (process.env.NODE_ENV === 'development') {
   const container = document.getElementById('root');
@@ -22,5 +21,3 @@ if (process.env.NODE_ENV === 'development') {
   // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
   reportWebVitals();
 }
-
-export default Contacts;
