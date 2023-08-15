@@ -1,43 +1,98 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
+import {
+  Form,
+  FormControl,
+  FormGroup,
+  ControlLabel,
+  Button,
+  ButtonGroup,
+  Col
+} from 'react-bootstrap'
+import { hasPermission } from '../helpers/permissions';
 
-function InviteForm({ t, currentUser }) {
+const defaultState = {
+  name: { value: '', error: null, touched: false },
+  email: { value: '', error: null, touched: false },
+  phone: { value: '', error: null, touched: false },
+  message: { value: '', error: null, touched: false },
+  oneTime: { value: false, error: null, touched: false }
+}
+
+const mergeStateWithValues = (state, values) => {
+  return Object.keys(state).reduce((acc, key) => {
+    return {
+      ...acc,
+      [key]: {
+        ...state[key],
+        value: values[key]
+      }
+    }
+  }, {});
+}
+
+function InviteForm({ hideModal, t, currentUser, initialValues, inviteLink, handleCopy }) {
+  const [fields, setFields] = useState(mergeStateWithValues(defaultState, initialValues));
+  const [sent, setSent] = useState(false);
+
+  const onChange = (field) => {
+    return (e) => {
+      const value = e.target.value;
+      setFields({
+        ...fields,
+        [field]: {
+          ...fields[field],
+          value,
+          touched: true
+        }
+      });
+    };
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, email, phone, message, oneTime } = fields;
+    const { onSubmit } = this.props;
+    onSubmit({ name: name.value, email: email.value, phone: phone.value, message: message.value, oneTime: oneTime.value });
+    setSent(true);
+    setFields(defaultState);
+  }
 
   return (
-    <Form horizontal className="InviteToHelpSpaceView" onSubmit={handleSubmit(this.onSubmit)}>
+    <Form horizontal className="InviteForm" onSubmit={handleSubmit}>
       <div>
-        <FormGroup validationState={fields.name.meta.touched && fields.name.meta.error ? 'error' : null}>
+        <FormGroup validationState={fields.name.touched && fields.name.error ? 'error' : null}>
           <ControlLabel className="col-sm-2">{t('Name')}</ControlLabel>
           <Col sm={10}>
-            <FormControl {...fields.name.input} type="text" placeholder={t('Name (optional)')} />
-            {fields.name.meta.touched && fields.name.meta.error &&
-              <span className="error">{fields.name.meta.error}</span>}
+            <FormControl value={fields.name.value} onChange={onChange('name')} type="text" placeholder={t('Name (optional)')} />
+            {fields.name.touched && fields.name.error &&
+              <span className="error">{fields.name.error}</span>}
           </Col>
         </FormGroup>
 
-        <FormGroup validationState={fields.email.meta.touched && fields.email.meta.error ? 'error' : null}>
+        <FormGroup validationState={fields.email.touched && fields.email.error ? 'error' : null}>
           <ControlLabel className="col-sm-2">{t('Email')}</ControlLabel>
           <Col sm={10}>
-            <FormControl {...fields.email.input} type="email" placeholder={fields.t('Participant email')} />
-            {fields.email.meta.touched && fields.email.meta.error &&
-              <span className="error">{fields.email.meta.error}</span>}
+            <FormControl value={fields.email.value} onChange={onChange('email')} type="email" placeholder={t('Participant email')} />
+            {fields.email.touched && fields.email.error &&
+              <span className="error">{fields.email.error}</span>}
           </Col>
         </FormGroup>
 
-        <FormGroup validationState={fields.phone.meta.touched && fields.phone.meta.error ? 'error' : null}>
+        <FormGroup validationState={fields.phone.touched && fields.phone.error ? 'error' : null}>
           <ControlLabel className="col-sm-2">{t('Phone')}</ControlLabel>
           <Col sm={10}>
-            <FormControl {...fields.phone.input} value={fields.phone.input.value || fields.dialCode} type="text" placeholder={fields.t('Participant Phone Number')} />
-            {fields.phone.meta.touched && fields.phone.meta.error &&
-              <span className="error">{fields.phone.meta.error}</span>}
+            <FormControl value={fields.phone.value} onChange={onChange('phone')} type="text" placeholder={t('Participant Phone Number')} />
+            {fields.phone.touched && fields.phone.error &&
+              <span className="error">{fields.phone.error}</span>}
           </Col>
         </FormGroup>
 
-        <FormGroup validationState={fields.message.meta.touched && fields.message.meta.error ? 'error' : null}>
+        <FormGroup validationState={fields.message.touched && fields.message.error ? 'error' : null}>
           <ControlLabel className="col-sm-2">{t('Message')}</ControlLabel>
           <Col sm={10}>
-            <FormControl {...fields.message.input} type="textarea" placeholder={t('Custom message (optional; added to email only)')} />
-            {fields.message.meta.touched && fields.message.meta.error &&
-              <span className="error">{fields.message.meta.error}</span>}
+            <FormControl value={fields.message.value} onChange={onChange('message')} type="textarea" placeholder={t('Custom message (optional; added to email only)')} />
+            {fields.message.touched && fields.message.error &&
+              <span className="error">{fields.message.error}</span>}
           </Col>
         </FormGroup>
 
@@ -46,15 +101,16 @@ function InviteForm({ t, currentUser }) {
             <Col sm={10} xsOffset={2}>
               <FormControl
                 className="onetime-checkbox"
-                type="checkbox" {...fields.oneTime.input}
-                defaultChecked={fields.initialValues.oneTime}
+                type="checkbox" value={fields.oneTime.value}
+                onChange={onChange('onTime')}
+                defaultChecked={initialValues.oneTime}
               />
               <ControlLabel className="onetime-checkbox-label">{t('Send invitation for one-time use')}</ControlLabel>
             </Col>
           </FormGroup>
         }
 
-        <FormGroup validationState={fields.phone.meta.touched && fields.phone.meta.error ? 'error' : null}>
+        <FormGroup validationState={fields.phone.touched && fields.phone.error ? 'error' : null}>
           <ControlLabel className="col-sm-2">{t('Link')}</ControlLabel>
           <Col sm={10}>
             <div className="invite-link">
@@ -71,8 +127,8 @@ function InviteForm({ t, currentUser }) {
       </div>
       <FormGroup>
         <ButtonGroup>
-          <Button onClick={this.props.hideModal} type="button" disabled={this.state.sent}>{t('Cancel')}</Button>
-          <Button primary type="submit" disabled={this.state.sent}>{t('Send Invite')}</Button>
+          <Button onClick={hideModal} type="button" disabled={sent}>{t('Cancel')}</Button>
+          <Button primary type="submit" disabled={sent}>{t('Send Invite')}</Button>
         </ButtonGroup>
       </FormGroup>
     </Form>

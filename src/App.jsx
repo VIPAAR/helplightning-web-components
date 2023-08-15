@@ -45,7 +45,11 @@ function App() {
               <Modal.Title>My Help Space</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Invite currentUser={currentUser} />
+              <Invite
+                hideModal={closeInviteModal}
+                currentUser={currentUser}
+                t={i18n.t}
+              />
             </Modal.Body>
           </Modal> : null
         }
