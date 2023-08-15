@@ -5,10 +5,7 @@ import ContactsView from './features/contacts/components/ContactsView';
 import Login from './features/auth/Login';
 import './App.scss';
 import { user } from './features/auth/auth';
-
-function t (key) {
-  return key;
-}
+import i18n from './i18n';
 
 function App() {
   const currentUser = useSelector(user);
@@ -26,9 +23,9 @@ function App() {
             callGroup={console.log}
             sendOTUInvitation={console.log}
             showModal={console.log}
-            t={t}
+            t={i18n.t}
           /> :
-          <Login /> 
+          <Login t={i18n.t}/>
         }
       </header>
     </div>

@@ -7,6 +7,7 @@ import { galdrClientV1R1 } from "../../api";
 function Login(props) {
     const inputRef = React.useRef(null);
     const dispatch = useDispatch();
+    const t = props.t
 
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -31,7 +32,7 @@ function Login(props) {
           Personal Access Token:
             <input type="text" ref={inputRef} />
           </label>
-          <button type="submit">Login</button>
+          <button type="submit">{t('Login')}</button>
         </form>
       </span>
     );

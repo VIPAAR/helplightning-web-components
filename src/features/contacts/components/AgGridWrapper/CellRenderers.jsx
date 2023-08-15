@@ -2,7 +2,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import missing from '../../../../avatar.png'
 import { isUserDevice } from './device'
+import i18n from '../../../../i18n'
 import './CellRenderers.scss'
+
+const t = i18n.t.bind(i18n)
 
 export const CallSubmenuButtonRenderer = (x) => {
   const { node, data, context: { componentParent } } = x
@@ -38,19 +41,19 @@ export const CallSubmenuButtonRenderer = (x) => {
       <div className="buttons-stripe">
         <div className="button btn-video" onClick={handleVideoClick}>
           <i className="fa fa-video" />
-          <span className="icon-label">{'Video'}</span>
+          <span className="icon-label">{t('Video')}</span>
         </div>
         <div className="button btn-audioplus" onClick={handleAudioClick}>
           <span className="audioPlusIcon"></span>
-          <span className="icon-label audio-plus">{'audio_plus_out_of_call'}</span>
+          <span className="icon-label audio-plus">{t('audio_plus_out_of_call')}</span>
         </div>
           <div className="button message" onClick={handleMessageClick}>
             <i class="fa fa-comment-dots"></i>
-            <span className="icon-label">{'Message'}</span>
+            <span className="icon-label">{t('Message')}</span>
           </div>
         <div className="button invite-btn-container" onClick={handleInviteClick}>
             <i class="fa-solid fa-envelope"></i>
-          <span className="icon-label">{'Invite'}</span>
+          <span className="icon-label">{t('Invite')}</span>
         </div>
       </div>
     </div>
@@ -158,7 +161,7 @@ NameDetailsRenderer.propTypes = {
 
 function NameDetails (data, showIfNotSignIn) {
   if (data) {
-    const name = (data.reachable || !showIfNotSignIn) ? data.name : `${data.name} ('not_signed_in')`
+    const name = (data.reachable || !showIfNotSignIn) ? data.name : `${data.name} (${t('not_signed_in')})`
     return (
       <div className="card">
         <div className="cardName" title={data.name}>{name}</div>
