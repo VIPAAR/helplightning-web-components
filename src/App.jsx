@@ -46,7 +46,7 @@ function App() {
             </Modal.Header>
             <Modal.Body>
               <Invite
-                hideModal={closeInviteModal}
+                onCancel={closeInviteModal}
                 currentUser={currentUser}
                 t={i18n.t}
               />

@@ -30,9 +30,8 @@ const mergeStateWithValues = (state, values) => {
   }, {});
 }
 
-function InviteForm({ hideModal, t, currentUser, initialValues, inviteLink, handleCopy }) {
+function InviteForm({ onCancel, t, currentUser, initialValues, sent, inviteLink, handleCopy }) {
   const [fields, setFields] = useState(mergeStateWithValues(defaultState, initialValues));
-  const [sent, setSent] = useState(false);
 
   const onChange = (field) => {
     return (e) => {
@@ -53,7 +52,6 @@ function InviteForm({ hideModal, t, currentUser, initialValues, inviteLink, hand
     const { name, email, phone, message, oneTime } = fields;
     const { onSubmit } = this.props;
     onSubmit({ name: name.value, email: email.value, phone: phone.value, message: message.value, oneTime: oneTime.value });
-    setSent(true);
     setFields(defaultState);
   }
 
@@ -127,7 +125,7 @@ function InviteForm({ hideModal, t, currentUser, initialValues, inviteLink, hand
       </div>
       <FormGroup>
         <ButtonGroup>
-          <Button onClick={hideModal} type="button" disabled={sent}>{t('Cancel')}</Button>
+          <Button onClick={onCancel} type="button" disabled={sent}>{t('Cancel')}</Button>
           <Button primary type="submit" disabled={sent}>{t('Send Invite')}</Button>
         </ButtonGroup>
       </FormGroup>
