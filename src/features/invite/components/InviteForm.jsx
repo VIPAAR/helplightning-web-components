@@ -35,7 +35,7 @@ const pickValues = (state) => {
   return { name: name.value, email: email.value, phone: phone.value, message: message.value, oneTime: oneTime.value }
 }
 
-function InviteForm({ onCancel, onSubmit, t, currentUser, initialValues, validators, sent, inviteLink, handleCopy }) {
+function InviteForm({ onClose, onSubmit, generateLink, t, currentUser, initialValues, validators, sent, inviteLink, handleCopy }) {
   const [fields, setFields] = useState(mergeStateWithValues(defaultState, initialValues));
 
   const onChange = (field) => {
@@ -54,10 +54,43 @@ function InviteForm({ onCancel, onSubmit, t, currentUser, initialValues, validat
     };
   };
 
+  const onLinkTypeChange = (e) => {
+    const value = e.target.checked;
+    setFields({
+      ...fields,
+      oneTime: {
+        ...fields.oneTime,
+        value,
+        touched: true
+      }
+    });
+    generateLink(value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(pickValues(fields));
-    setFields(defaultState);
+    // validate form
+    let hasError = false;
+    const values = pickValues(fields);
+    const newFields = Object.keys(fields).reduce((acc, key) => {
+      const error = validators && validators[key] && validators[key](fields[key].value, values);
+      error && (hasError = true);
+      return {
+        ...acc,
+        [key]: {
+          ...fields[key],
+          error,
+          touched: true
+        }
+      };
+    }, {});
+
+    if (hasError) {
+      setFields(newFields);
+    } else {
+      onSubmit(values);
+      setFields(defaultState);
+    }
   }
 
   return (
@@ -104,8 +137,8 @@ function InviteForm({ onCancel, onSubmit, t, currentUser, initialValues, validat
             <Col sm={10} xsOffset={2}>
               <FormControl
                 className="onetime-checkbox"
-                type="checkbox" value={fields.oneTime.value}
-                onChange={onChange('onTime')}
+                type="checkbox" checked={fields.oneTime.value}
+                onChange={onLinkTypeChange}
                 defaultChecked={initialValues.oneTime}
               />
               <ControlLabel className="onetime-checkbox-label">{t('Send invitation for one-time use')}</ControlLabel>
@@ -130,7 +163,7 @@ function InviteForm({ onCancel, onSubmit, t, currentUser, initialValues, validat
       </div>
       <FormGroup>
         <ButtonGroup>
-          <Button onClick={onCancel} type="button" disabled={sent}>{t('Cancel')}</Button>
+          <Button onClick={onClose} type="button" disabled={sent}>{t('Cancel')}</Button>
           <Button primary type="submit" disabled={sent}>{t('Send Invite')}</Button>
         </ButtonGroup>
       </FormGroup>

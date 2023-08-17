@@ -19,6 +19,7 @@ const inviteValidators = {
 function App() {
   const currentUser = useSelector(user);
   const [showInviteModal, setShowInviteModal] = React.useState(false);
+  const [link, setLink] = React.useState('');
 
   const onInviteUserClick = () => {
     setShowInviteModal(true);
@@ -26,6 +27,16 @@ function App() {
 
   const closeInviteModal = () => {
     setShowInviteModal(false);
+  }
+
+  const generateLink = (oneTimeUse) => {
+    oneTimeUse ? setLink('https://helplightning.com/meet/code?xyz') : setLink('https://helplightning.com/meet/expert');
+  }
+
+  const invite = (values, onSuccess, onFailure) => {
+    console.log('Inviting user', values);
+    onSuccess();
+    closeInviteModal();
   }
 
   return (
@@ -53,8 +64,11 @@ function App() {
             </Modal.Header>
             <Modal.Body>
               <Invite
-                cancel={closeInviteModal}
+                onClose={closeInviteModal}
+                onSubmit={invite}
                 currentUser={currentUser}
+                generateLink={generateLink}
+                inviteLink={link}
                 validators={inviteValidators}
                 t={i18n.t}
               />

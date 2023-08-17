@@ -4,26 +4,20 @@ import React from 'react';
 import InviteForm from './InviteForm';
 import './Invite.scss';
 
-const Invite = ({ invite, cancel, t, currentUser, initialValues, validators, inviteLink, onCopyToClipboard }) => {
+const Invite = ({ invite, onClose, generateLink ,t, currentUser, initialValues, validators, inviteLink, onCopyToClipboard }) => {
   const [sent, setSent] = React.useState(false)
 
   const onSubmit = (values) => {
     setSent(true)
     invite(values, onInvitationSuccess, onInvitationFailure)
-    if (values.oneTime !== undefined) {
-      setOneTime(values.oneTime)
-    }
   }
 
-  const setOneTime = (value) => {
-    localStorage.setItem('hl-meetInvite-oneTime', JSON.stringify(value))
+  const onInvitationSuccess = () => {
+    // TODO: reset form
   }
-  const getOneTime = () => {
-    return localStorage.getItem('hl-meetInvite-oneTime') !== 'false'
+  const onInvitationFailure = () => {
+    setSent(false)
   }
-
-  const onInvitationFailure = () => {}
-  const onInvitationSuccess = () => {}
 
   const handleCopy = () => {
     inviteLink && navigator.clipboard.writeText(inviteLink)
@@ -33,15 +27,13 @@ const Invite = ({ invite, cancel, t, currentUser, initialValues, validators, inv
   return (
     <div>
       <InviteForm
-        onCancel={cancel}
+        onClose={onClose}
         currentUser={currentUser}
         onSubmit={onSubmit}
+        generateLink={generateLink}
         inviteLink={inviteLink}
         handleCopy={handleCopy}
-        initialValues={{
-          oneTime: getOneTime(),
-          ...initialValues
-        }}
+        initialValues={initialValues}
         validators={validators}
         sent={sent}
         t={t}
