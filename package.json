@@ -13,9 +13,7 @@
     "axios": "^1.4.0",
     "css-loader": "^6.8.1",
     "ramda": "^0.29.0",
-    "react": "17.0.2",
     "react-bootstrap": "0.33",
-    "react-dom": "17.0.2",
     "react-redux": "^8.0.1",
     "sass": "^1.64.2",
     "svg-sprite-loader": "^6.0.11",
@@ -61,5 +59,9 @@
     "style-loader": "^3.3.3",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
-  }
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+   }
 }
