@@ -153,7 +153,7 @@ function InviteForm({ onClose, onSubmit, generateLink, t, currentUser, initialVa
               {inviteLink && (
                 <Fragment>
                   {inviteLink}
-                  <i className="far fa-copy " onClick={handleCopy} />
+                  { handleCopy ? <i className="far fa-copy " onClick={handleCopy} /> : null }
                 </Fragment>
               )}
               {inviteLink ? null : <i className="fa fa-spinner fa-spin" />}

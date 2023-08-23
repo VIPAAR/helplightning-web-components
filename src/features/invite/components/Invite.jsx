@@ -4,7 +4,7 @@ import React from 'react';
 import InviteForm from './InviteForm';
 import './Invite.scss';
 
-const Invite = ({ invite, onClose, generateLink ,t, currentUser, initialValues, validators, inviteLink, onCopyToClipboard }) => {
+const Invite = ({ invite, onClose, generateLink ,t, currentUser, initialValues, validators, inviteLink, enableCopyLink, onLinkCopyToClipboard }) => {
   const [sent, setSent] = React.useState(false)
 
   const onSubmit = (values) => {
@@ -21,7 +21,7 @@ const Invite = ({ invite, onClose, generateLink ,t, currentUser, initialValues, 
 
   const handleCopy = () => {
     inviteLink && navigator.clipboard.writeText(inviteLink)
-    onCopyToClipboard && onCopyToClipboard()
+    onLinkCopyToClipboard && onLinkCopyToClipboard()
   }
 
   return (
@@ -32,7 +32,7 @@ const Invite = ({ invite, onClose, generateLink ,t, currentUser, initialValues, 
         onSubmit={onSubmit}
         generateLink={generateLink}
         inviteLink={inviteLink}
-        handleCopy={handleCopy}
+        handleCopy={enableCopyLink ? handleCopy : null}
         initialValues={initialValues}
         validators={validators}
         sent={sent}
