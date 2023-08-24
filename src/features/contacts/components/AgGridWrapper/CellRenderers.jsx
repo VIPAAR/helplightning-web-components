@@ -9,7 +9,7 @@ const t = i18n.t.bind(i18n)
 
 export const CallSubmenuButtonRenderer = (x) => {
   const { node, data, context: { componentParent } } = x
-  const { sendOTUInvitation, currentUser } = componentParent.props
+  const { currentUser, chatContact, audioPlusEnabled, sendOTUInvitation } = componentParent.props
 
   const handleInviteClick = (e) => {
     e.stopPropagation()
@@ -43,18 +43,24 @@ export const CallSubmenuButtonRenderer = (x) => {
           <i className="fa fa-video" />
           <span className="icon-label">{t('Video')}</span>
         </div>
+        { audioPlusEnabled &&
         <div className="button btn-audioplus" onClick={handleAudioClick}>
           <span className="audioPlusIcon"></span>
           <span className="icon-label audio-plus">{t('audio_plus_out_of_call')}</span>
         </div>
-          <div className="button message" onClick={handleMessageClick}>
-            <i class="fa fa-comment-dots"></i>
-            <span className="icon-label">{t('Message')}</span>
-          </div>
+        }
+        { chatContact &&
+        <div className="button message" onClick={handleMessageClick}>
+          <i class="fa fa-comment-dots"></i>
+          <span className="icon-label">{t('Message')}</span>
+        </div>
+        }
+        { sendOTUInvitation &&
         <div className="button invite-btn-container" onClick={handleInviteClick}>
             <i class="fa-solid fa-envelope"></i>
           <span className="icon-label">{t('Invite')}</span>
         </div>
+        }
       </div>
     </div>
   )
