@@ -75,7 +75,7 @@ class BaseContactsView extends Component {
         audioOnly: data.audioOnly
       }, dialer)
     } else if (!data.reachable) {
-      this.props.showModal({ modalType: 'CALL_UNREACHABLE_USER_MODAL', modalProps: { contact: data, onSendClick: this.props.sendOTUInvitation, token: this.props.currentUser.token } })
+      this.props.onCallUnreachedUser(data, dialer)
     } else {
       this.props.callContact(data, dialer)
     }
