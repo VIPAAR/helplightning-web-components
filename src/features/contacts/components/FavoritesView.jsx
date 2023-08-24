@@ -10,7 +10,7 @@ class FavoritesView extends BaseContactsView {
       filter: '',
       caches: this.buildCaches()
     }
-    this.viewName = 'FavoritesVeiew'
+    this.viewName = 'FavoritesView'
   }
 
   needRefreshData (nextProps) {
