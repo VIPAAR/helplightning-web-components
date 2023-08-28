@@ -9,6 +9,7 @@ import {
 import { galdrClient, galdrClientV1R1 } from '../../../api'
 import MultiPaginationCache from '../helpers/MultiPaginationCache'
 import { getDefaultAvatar } from '../helpers/account'
+import defaultTrans from '../../defaultTrans'
 import './TeamView.scss'
 
 class BaseContactsView extends Component {
@@ -21,6 +22,10 @@ class BaseContactsView extends Component {
     showModal: PropTypes.func.isRequired,
     sendOTUInvitation: PropTypes.func.isRequired,
     t: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    t: defaultTrans
   }
 
   constructor (props) {

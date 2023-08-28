@@ -2,6 +2,7 @@
 
 import React from 'react';
 import InviteForm from './InviteForm';
+import defaultTrans from '../../defaultTrans';
 import './Invite.scss';
 
 const Invite = ({ invite, onClose, generateLink ,t, currentUser, initialValues, validators, inviteLink, enableCopyLink, onLinkCopyToClipboard }) => {
@@ -41,5 +42,9 @@ const Invite = ({ invite, onClose, generateLink ,t, currentUser, initialValues, 
     </div>
   );
 };
+
+Invite.defaultProps = {
+  t: defaultTrans
+}
 
 export default Invite;

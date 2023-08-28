@@ -6,6 +6,7 @@ import TeamView from './TeamView'
 import FavoritesView from './FavoritesView'
 import DirectoryView from './DirectoryView'
 import PersonalView from './PersonalView'
+import defaultTrans from '../../defaultTrans'
 import './Contacts.scss'
 
 class ContactsView extends Component {
@@ -21,6 +22,10 @@ class ContactsView extends Component {
     t: PropTypes.func.isRequired,
     router: PropTypes.object
   }
+
+  static defaultProps = {
+    t: defaultTrans
+  };
 
   constructor (props) {
     super(props)
