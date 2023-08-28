@@ -2,14 +2,11 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import missing from '../../../../avatar.png'
 import { isUserDevice } from './device'
-import i18n from '../../../../i18n'
 import './CellRenderers.scss'
-
-const t = i18n.t.bind(i18n)
 
 export const CallSubmenuButtonRenderer = (x) => {
   const { node, data, context: { componentParent } } = x
-  const { currentUser, chatContact, audioPlusEnabled, sendOTUInvitation } = componentParent.props
+  const { currentUser, chatContact, audioPlusEnabled, sendOTUInvitation, t } = componentParent.props
 
   const handleInviteClick = (e) => {
     e.stopPropagation()
@@ -154,18 +151,19 @@ AvatarImageRenderer.propTypes = {
   defaultAvatar: PropTypes.string
 }
 
-export function NameDetailsRenderer ({ data, colDef }) {
+export function NameDetailsRenderer ({ data, colDef, context }) {
+  const { t } = context.componentParent.props
   if (data && data.on_call_group) {
     return GroupNameDetails(data)
   } else {
-    return NameDetails(data, colDef.showIfNotSignIn)
+    return NameDetails(data, colDef.showIfNotSignIn, t)
   }
 }
 NameDetailsRenderer.propTypes = {
   data: PropTypes.object
 }
 
-function NameDetails (data, showIfNotSignIn) {
+function NameDetails (data, showIfNotSignIn, t) {
   if (data) {
     const name = (data.reachable || !showIfNotSignIn) ? data.name : `${data.name} (${t('not_signed_in')})`
     return (

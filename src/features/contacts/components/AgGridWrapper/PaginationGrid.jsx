@@ -111,7 +111,11 @@ class PaginationGrid extends Component {
     }
     const columnDefs = columns.map(e => noSort(GetColumn(e, t, customColumns)))
 
-    const frameworkComponents = { ...FrameworkComponents }
+    const frameworkComponents = {}
+    Object.keys(FrameworkComponents).forEach(key => {
+      const Component = FrameworkComponents[key]
+      frameworkComponents[key] = (props) => <Component {...props} t={t} />
+    })
     const extras = {}
     if (!showHeaders) {
       extras.headerHeight = '0px'
