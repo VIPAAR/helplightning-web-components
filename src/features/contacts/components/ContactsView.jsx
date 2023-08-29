@@ -52,34 +52,38 @@ class ContactsView extends Component {
   }
 
   renderDicTab () {
+    const key = 'directory'
     const { t, showDirectory } = this.props
     return showDirectory && (
-      <Tab eventKey={'directory'} title={<div><i className="fa fa-address-book" /> <span>{t('Directory')}</span></div>}>
-        <DirectoryView {...this.props} />
+      <Tab eventKey={key} title={<div><i className="fa fa-address-book" /> <span>{t('Directory')}</span></div>}>
+        <DirectoryView {...this.props} active={this.state.key === key} />
       </Tab>
     )
   }
 
   renderPersonalTab () {
+    const key = 'personal'
     const { t, showPersonal } = this.props
     return showPersonal && (
-      <Tab eventKey={'personal'} title={<div><i className="fa fa-users-class" /> <span>{t('Personal')}</span></div>}>
-        <PersonalView {...this.props} />
+      <Tab eventKey={key} title={<div><i className="fa fa-users-class" /> <span>{t('Personal')}</span></div>}>
+        <PersonalView {...this.props} active={this.state.key === key} />
       </Tab>
     )
   }
 
   renderTeamTab () {
+    const key = 'team'
     const { t } = this.props
-    return <Tab eventKey={'team'} title={<div><i className="fa fa-users" /> <span>{t('Team')}</span></div>}>
-      <TeamView {...this.props} />
+    return <Tab eventKey={key} title={<div><i className="fa fa-users" /> <span>{t('Team')}</span></div>}>
+      <TeamView {...this.props} active={this.state.key === key} />
     </Tab>
   }
 
   renderFavTab () {
+    const key = 'favorites'
     const { t } = this.props
-    return <Tab eventKey={'favorites'} title={<div><i className="fa fa-star" /> <span>{t('Favorites')}</span></div>}>
-      <FavoritesView {...this.props} />
+    return <Tab eventKey={key} title={<div><i className="fa fa-star" /> <span>{t('Favorites')}</span></div>}>
+      <FavoritesView {...this.props} active={this.state.key === key} />
     </Tab>
   }
 

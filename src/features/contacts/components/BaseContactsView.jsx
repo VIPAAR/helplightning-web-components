@@ -14,6 +14,7 @@ import './TeamView.scss'
 
 class BaseContactsView extends Component {
   static propTypes = {
+    active: PropTypes.bool,
     currentUser: PropTypes.object,
     callContact: PropTypes.func.isRequired,
     chatContact: PropTypes.func,
@@ -37,7 +38,8 @@ class BaseContactsView extends Component {
   }
 
   UNSAFE_componentWillReceiveProps (nextProps) {
-    if (this.needRefreshData(nextProps)) {
+    const actived = nextProps.active && nextProps.active !== this.props.active
+    if (this.needRefreshData(nextProps) || actived) {
       this.refreshData()
     }
   }
