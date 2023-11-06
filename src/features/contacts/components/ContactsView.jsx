@@ -11,6 +11,7 @@ import './Contacts.scss'
 
 class ContactsView extends Component {
   static propTypes = {
+    client: PropTypes.object.isRequired,
     activeKey: PropTypes.string,
     currentUser: PropTypes.object,
     showPersonal: PropTypes.bool,

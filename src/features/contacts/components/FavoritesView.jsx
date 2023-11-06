@@ -24,8 +24,8 @@ class FavoritesView extends BaseContactsView {
 
   buildCaches = () => {
     return new MultiPaginationCache([
-      new PaginationCache(20, (page, pageSize) => this.fetchData('/user/search/on_call_group_favorites', page, pageSize)),
-      new PaginationCache(20, (page, pageSize) => this.fetchData('/user/search/favorites', page, pageSize))
+      new PaginationCache(20, (page, pageSize) => this.props.client.fetchOnCallGroupFavorite(page, pageSize)),
+      new PaginationCache(20, (page, pageSize) => this.props.client.fetchFavorite(page, pageSize))
     ])
   }
 }

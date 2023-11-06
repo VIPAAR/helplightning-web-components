@@ -6,7 +6,6 @@ import {
   ServerSearch,
   PaginationGrid
 } from './AgGridWrapper'
-import { galdrClient, galdrClientV1R1 } from '../../../api'
 import MultiPaginationCache from '../helpers/MultiPaginationCache'
 import { getDefaultAvatar } from '../helpers/account'
 import defaultTrans from '../../defaultTrans'
@@ -57,21 +56,6 @@ class BaseContactsView extends Component {
     return new MultiPaginationCache([])
   }
 
-  requestV1R1 = (method, url, params) => {
-    const { currentUser } = this.props
-    return galdrClientV1R1.request({ method, url, headers: { 'Authorization': currentUser.token }, params: params })
-  }
-
-  request = (method, url, params) => {
-    const { currentUser } = this.props
-    return galdrClient.request({ method, url, headers: { 'Authorization': currentUser.token }, params: params })
-  }
-
-  fetchData = (endpoint, page, pageSize) => {
-    const params = { page, page_size: pageSize, search_term: this.state.filter }
-    return this.requestV1R1('get', endpoint, params)
-  }
-
   onCallClick = (data) => {
     const dialer = this.props.currentUser
     if (data.isGroup || data.on_call_group) {
@@ -94,23 +78,20 @@ class BaseContactsView extends Component {
 
   changeFavorite = (e, id, state, data) => {
     e.stopPropagation()
+    let request = null
     if (data.isGroup || data.on_call_group) {
-      this.request(state ? 'post' : 'delete', `/on_call_groups/${id}/favorites`, {})
-        .then((resp) => {
-          const node = this.state.gridApi.getRowNode(id)
-          if (node) {
-            node.setData({ ...data, favorite: !data.favorite })
-          }
-        })
+      const request = state ? this.props.client.addToGroupFavorite(id)
+        : this.props.client.removeFromGroupFavorite(id)
     } else {
-      this.request(state ? 'post' : 'delete', '/favorites', { id })
-        .then((resp) => {
-          const node = this.state.gridApi.getRowNode(id)
-          if (node) {
-            node.setData({ ...data, favorite: !data.favorite })
-          }
-        })
+      const request = state ? this.props.client.addToFavorite(id)
+        : this.props.client.removeFromFavorite(id)
     }
+    request.then((resp) => {
+      const node = this.state.gridApi.getRowNode(id)
+      if (node) {
+        node.setData({ ...data, favorite: !data.favorite })
+      }
+    })
   }
 
   onGridReady = (params) => {

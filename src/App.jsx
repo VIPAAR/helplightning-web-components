@@ -7,6 +7,7 @@ import Invite from './features/invite/components/Invite';
 import Login from './features/auth/Login';
 import './App.scss';
 import { user } from './features/auth/auth';
+import { galdrClient, galdrClientV1R1 } from './api'
 import i18n from './i18n';
 import { meetInviteEmail, string255NotRequired } from './app/helpers/formValidators';
 
@@ -39,6 +40,54 @@ function App() {
     closeInviteModal();
   }
 
+  const requestV1R1 = (method, url, params) => {
+    const { currentUser } = this.props
+    return galdrClientV1R1.request({ method, url, headers: { 'Authorization': currentUser.token }, params: params })
+  }
+
+  const request = (method, url, params) => {
+    const { currentUser } = this.props
+    return galdrClient.request({ method, url, headers: { 'Authorization': currentUser.token }, params: params })
+  }
+
+  const fetchData = (endpoint, page, pageSize) => {
+    const params = { page, page_size: pageSize, search_term: this.state.filter }
+    return requestV1R1('get', endpoint, params)
+  }
+
+  const client = {
+    addToFavorite: (id) => {
+      request('post', '/favorites', { id })
+    },
+    removeFromFavorite: (id) => {
+      request('delete', '/favorites', { id })
+    },
+    addToGroupFavorite: (id) => {
+      request('post', `/on_call_groups/${id}/favorites`, {})
+    },
+    removeFromGroupFavorite: (id) => {
+      request('delete', `/on_call_groups/${id}/favorites`, {})
+    },
+    fetchDirectory: (page, pageSize) => {
+      fetchData('/user/search/directory', page, pageSize)
+    },
+    fetchFavorite: (page, pageSize) => {
+      fetchData('/user/search/favorites', page, pageSize)
+    },
+    fetchOnCallGroupFavorite: (page, pageSize) => {
+      fetchData('/user/search/on_call_group_favorites', page, pageSize)
+    },
+    fetchPersonal: (page, pageSize) => {
+      fetchData('/user/search/personal', page, pageSize)
+    },
+    fetchOnCallGroup: (page, pageSize) => {
+      fetchData('/user/search/on_call_groups', page, pageSize)
+    },
+    fetchTeam: (page, pageSize) => {
+      fetchData('/user/search/team', page, pageSize)
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -48,6 +97,7 @@ function App() {
         </p>
         { currentUser?.token ?
           <ContactsView
+            client={client}
             currentUser={currentUser}
             callContact={console.log}
             callGroup={console.log}

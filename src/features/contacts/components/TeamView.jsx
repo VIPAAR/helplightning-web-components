@@ -15,8 +15,8 @@ class TeamView extends BaseContactsView {
 
   buildCaches = () => {
     return new MultiPaginationCache([
-      new PaginationCache(20, (page, pageSize) => this.fetchData('/user/search/on_call_groups', page, pageSize)),
-      new PaginationCache(20, (page, pageSize) => this.fetchData('/user/search/team', page, pageSize))
+      new PaginationCache(20, (page, pageSize) => this.props.client.fetchOnCallGroup(page, pageSize)),
+      new PaginationCache(20, (page, pageSize) => this.props.client.fetchTeam(page, pageSize))
     ])
   }
 }
