@@ -57,14 +57,3 @@ export const galdrWrapper = (...paths) => {
 export const galdrClient = galdrWrapper('api', 'v1')
 export const galdrClientV1R1 = galdrWrapper('api', 'v1r1')
 export const galdrClientRevision = (revision) => galdrWrapper('api', revision)
-
-export const initializeApiHeaders = (token) => {
-  galdrClient.defaults.headers.Authorization = token
-  galdrClientV1R1.defaults.headers.Authorization = token
-}
-
-// initialized during login only
-export const initializeApiHeadersOnLogin = (currentUser, enterpriseToken) => {
-  galdrClient.defaults.headers.Authorization = enterpriseToken || currentUser.token
-  galdrClientV1R1.defaults.headers.Authorization = enterpriseToken || currentUser.token
-}
