@@ -55,34 +55,34 @@ function App() {
 
   const client = {
     addToFavorite: (id) => {
-      request('post', '/favorites', { id })
+      return request('post', '/favorites', { id })
     },
     removeFromFavorite: (id) => {
-      request('delete', '/favorites', { id })
+      return request('delete', '/favorites', { id })
     },
     addToGroupFavorite: (id) => {
-      request('post', `/on_call_groups/${id}/favorites`, {})
+      return request('post', `/on_call_groups/${id}/favorites`, {})
     },
     removeFromGroupFavorite: (id) => {
-      request('delete', `/on_call_groups/${id}/favorites`, {})
+      return request('delete', `/on_call_groups/${id}/favorites`, {})
     },
     fetchDirectory: (filter, page, pageSize) => {
-      fetchData('/user/search/directory', filter, page, pageSize)
+      return fetchData('/user/search/directory', filter, page, pageSize)
     },
     fetchFavorite: (filter, page, pageSize) => {
-      fetchData('/user/search/favorites', filter, page, pageSize)
+      return fetchData('/user/search/favorites', filter, page, pageSize)
     },
     fetchOnCallGroupFavorite: (filter, page, pageSize) => {
-      fetchData('/user/search/on_call_group_favorites', filter, page, pageSize)
+      return fetchData('/user/search/on_call_group_favorites', filter, page, pageSize)
     },
     fetchPersonal: (filter, page, pageSize) => {
-      fetchData('/user/search/personal', filter, page, pageSize)
+      return fetchData('/user/search/personal', filter, page, pageSize)
     },
     fetchOnCallGroup: (filter, page, pageSize) => {
-      fetchData('/user/search/on_call_groups', filter, page, pageSize)
+      return fetchData('/user/search/on_call_groups', filter, page, pageSize)
     },
     fetchTeam: (filter, page, pageSize) => {
-      fetchData('/user/search/team', filter, page, pageSize)
+      return fetchData('/user/search/team', filter, page, pageSize)
     }
   }
 
