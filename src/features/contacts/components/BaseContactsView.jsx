@@ -80,10 +80,10 @@ class BaseContactsView extends Component {
     e.stopPropagation()
     let request = null
     if (data.isGroup || data.on_call_group) {
-      const request = state ? this.props.client.addToGroupFavorite(id)
+      request = state ? this.props.client.addToGroupFavorite(id)
         : this.props.client.removeFromGroupFavorite(id)
     } else {
-      const request = state ? this.props.client.addToFavorite(id)
+      request = state ? this.props.client.addToFavorite(id)
         : this.props.client.removeFromFavorite(id)
     }
     request.then((resp) => {

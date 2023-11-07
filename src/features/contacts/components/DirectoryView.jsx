@@ -13,7 +13,7 @@ class DirectoryView extends BaseContactsView {
   }
 
   buildCaches = () => {
-    return new PaginationCache(20, (page, pageSize) => this.props.client.fetchDirectory(page, pageSize))
+    return new PaginationCache(20, (page, pageSize) => this.props.client.fetchDirectory(this.state.filter, page, pageSize))
   }
 }
 

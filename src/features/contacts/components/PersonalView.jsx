@@ -13,6 +13,7 @@ class PersonalView extends BaseContactsView {
   constructor (props) {
     super(props)
     this.state = {
+      filter: '',
       cache: this.buildCache()
     }
     this.viewName = 'PersonalView'
@@ -30,7 +31,7 @@ class PersonalView extends BaseContactsView {
   }
 
   buildCache = () => {
-    return new PaginationCache(20, (page, pageSize) => this.props.client.fetchPersonal(page, pageSize))
+    return new PaginationCache(20, (page, pageSize) => this.props.client.fetchPersonal(this.state.filter, page, pageSize))
   }
 
   applySingleChange = (changedContact) => {

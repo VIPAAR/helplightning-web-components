@@ -41,17 +41,15 @@ function App() {
   }
 
   const requestV1R1 = (method, url, params) => {
-    const { currentUser } = this.props
     return galdrClientV1R1.request({ method, url, headers: { 'Authorization': currentUser.token }, params: params })
   }
 
   const request = (method, url, params) => {
-    const { currentUser } = this.props
     return galdrClient.request({ method, url, headers: { 'Authorization': currentUser.token }, params: params })
   }
 
-  const fetchData = (endpoint, page, pageSize) => {
-    const params = { page, page_size: pageSize, search_term: this.state.filter }
+  const fetchData = (endpoint, filter, page, pageSize) => {
+    const params = { page, page_size: pageSize, search_term: filter }
     return requestV1R1('get', endpoint, params)
   }
 
@@ -68,23 +66,23 @@ function App() {
     removeFromGroupFavorite: (id) => {
       request('delete', `/on_call_groups/${id}/favorites`, {})
     },
-    fetchDirectory: (page, pageSize) => {
-      fetchData('/user/search/directory', page, pageSize)
+    fetchDirectory: (filter, page, pageSize) => {
+      fetchData('/user/search/directory', filter, page, pageSize)
     },
-    fetchFavorite: (page, pageSize) => {
-      fetchData('/user/search/favorites', page, pageSize)
+    fetchFavorite: (filter, page, pageSize) => {
+      fetchData('/user/search/favorites', filter, page, pageSize)
     },
-    fetchOnCallGroupFavorite: (page, pageSize) => {
-      fetchData('/user/search/on_call_group_favorites', page, pageSize)
+    fetchOnCallGroupFavorite: (filter, page, pageSize) => {
+      fetchData('/user/search/on_call_group_favorites', filter, page, pageSize)
     },
-    fetchPersonal: (page, pageSize) => {
-      fetchData('/user/search/personal', page, pageSize)
+    fetchPersonal: (filter, page, pageSize) => {
+      fetchData('/user/search/personal', filter, page, pageSize)
     },
-    fetchOnCallGroup: (page, pageSize) => {
-      fetchData('/user/search/on_call_groups', page, pageSize)
+    fetchOnCallGroup: (filter, page, pageSize) => {
+      fetchData('/user/search/on_call_groups', filter, page, pageSize)
     },
-    fetchTeam: (page, pageSize) => {
-      fetchData('/user/search/team', page, pageSize)
+    fetchTeam: (filter, page, pageSize) => {
+      fetchData('/user/search/team', filter, page, pageSize)
     }
   }
 
