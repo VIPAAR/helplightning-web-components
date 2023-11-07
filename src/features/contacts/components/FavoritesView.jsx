@@ -11,6 +11,7 @@ class FavoritesView extends BaseContactsView {
       caches: this.buildCaches()
     }
     this.viewName = 'FavoritesView'
+    this.refreshWhenChange = true
   }
 
   needRefreshData (nextProps) {

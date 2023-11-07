@@ -34,6 +34,7 @@ class BaseContactsView extends Component {
       filter: '',
       caches: this.buildCaches()
     }
+    this.refreshWhenChange = false
   }
 
   UNSAFE_componentWillReceiveProps (nextProps) {
@@ -87,9 +88,13 @@ class BaseContactsView extends Component {
         : this.props.client.removeFromFavorite(id)
     }
     request.then((resp) => {
-      const node = this.state.gridApi.getRowNode(id)
-      if (node) {
-        node.setData({ ...data, favorite: !data.favorite })
+      if (this.refreshWhenChange) {
+        this.refreshData()
+      } else {
+        const node = this.state.gridApi.getRowNode(id)
+        if (node) {
+          node.setData({ ...data, favorite: !data.favorite })
+        }
       }
     })
   }
