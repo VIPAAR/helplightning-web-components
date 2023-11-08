@@ -8,7 +8,6 @@ import {
   ButtonGroup,
   Col
 } from 'react-bootstrap'
-import { hasPermission } from '../helpers/permissions';
 
 const defaultState = {
   name: { value: '', error: null, touched: false },
@@ -35,7 +34,7 @@ const pickValues = (state) => {
   return { name: name.value, email: email.value, phone: phone.value, message: message.value, oneTime: oneTime.value }
 }
 
-function InviteForm({ onClose, onSubmit, generateLink, t, currentUser, initialValues, validators, sent, inviteLink, handleCopy }) {
+function InviteForm({ onClose, onSubmit, generateLink, t, oneTimeEnabled, initialValues, validators, sent, inviteLink, handleCopy }) {
   const [fields, setFields] = useState(mergeStateWithValues(defaultState, initialValues));
 
   const onChange = (field) => {
@@ -132,7 +131,7 @@ function InviteForm({ onClose, onSubmit, generateLink, t, currentUser, initialVa
           </Col>
         </FormGroup>
 
-        {hasPermission(currentUser, 'one_time_use_links') &&
+        {oneTimeEnabled &&
           <FormGroup>
             <Col sm={10} xsOffset={2}>
               <FormControl

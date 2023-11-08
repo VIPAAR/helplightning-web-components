@@ -3062,6 +3062,14 @@ batch@0.6.1:
   resolved "https://registry.yarnpkg.com/batch/-/batch-0.6.1.tgz#dc34314f4e679318093fc760272525f94bf25c16"
   integrity sha512-x+VAiMRL6UPkx+kudNvxTl6hB2XNNCG2r+7wixVfIYwu/2HKRXimwQyaumLjMveWvT2Hkd/cAJw+QBMfJ/EKVw==
 
+bc-countries@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/bc-countries/-/bc-countries-2.0.0.tgz#830eca9ff74ab70975e97b7bcca18caa7037479e"
+  integrity sha512-NmMD0CkrjRArMY/XqODuBsND0Lr0BDIFuiCMDfJiaXXDW4+JdqwDJyedS2/w492XpMQ69ucMqkrWJPHlJI87eA==
+  dependencies:
+    digits-trie "^1.0.0"
+    google-libphonenumber "^1.0.7"
+
 bfj@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/bfj/-/bfj-7.0.2.tgz#1988ce76f3add9ac2913fd8ba47aad9e651bfbb2"
@@ -3626,6 +3634,14 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+country-language@0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/country-language/-/country-language-0.1.7.tgz#7870f4ba125db9a6071f19737bd9ef9343ae35db"
+  integrity sha512-QH8GvZehR0IsFSR8ZPzteaCq/JjsLKk+tHWSQciXVpredI/2Xaf1VAdCuo/XPFWSrRCkSLaZNqnOcot4zceAIw==
+  dependencies:
+    underscore "~1.7.0"
+    underscore.deep "~0.5.1"
+
 cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
@@ -4023,6 +4039,11 @@ diff-sequences@^29.4.3:
   version "29.4.3"
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-29.4.3.tgz#9314bc1fabe09267ffeca9cbafc457d8499a13f2"
   integrity sha512-ofrBgwpPhCD85kMKtE9RYFFq6OC1A89oW2vvgWZNCwxrUpRUILopY7lsYyMDSjc8g6U6aiO0Qubg6r4Wgt5ZnA==
+
+digits-trie@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/digits-trie/-/digits-trie-1.0.0.tgz#90fdf111811217a5d471bdaf39cb4808530a6d7b"
+  integrity sha512-lqMWtQeKqhtA7r09K+euyK8q79WueV+lpcqUbYxzAWiKHrdFv/H2JjWtVQYaFqJaUd/W8eUrd9zNKS/vu+UO2A==
 
 dir-glob@^3.0.1:
   version "3.0.1"
@@ -5220,6 +5241,16 @@ globby@^11.0.4, globby@^11.1.0:
     ignore "^5.2.0"
     merge2 "^1.4.1"
     slash "^3.0.0"
+
+google-libphonenumber@3.2.24:
+  version "3.2.24"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-3.2.24.tgz#55adda2b42dc4457d27f5671289a3d8cd473b442"
+  integrity sha512-5Z3dZTgwacTjALlkRK5hTIjGLwTCJGNZtmWgnhpb1Z6XEBYGsXbJGsr9+MheP/2mAk/ssOvpvMXKEZISWeytcA==
+
+google-libphonenumber@^1.0.7:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/google-libphonenumber/-/google-libphonenumber-1.1.2.tgz#bf058975c31f7e3638333b0d630ef38dd3263b48"
+  integrity sha512-SsyhpaomqkbY+n2CT723+XM7b6BYViIOtAvFLd/4d4WaP02Z6zfysyj+eOCzgkM5Tm+2cgf1fMfhbe3w5JLmmw==
 
 gopd@^1.0.1:
   version "1.0.1"
@@ -9976,6 +10007,16 @@ uncontrollable@^7.0.2:
     "@types/react" ">=16.9.11"
     invariant "^2.2.4"
     react-lifecycles-compat "^3.0.4"
+
+underscore.deep@~0.5.1:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/underscore.deep/-/underscore.deep-0.5.3.tgz#210969d58025339cecabd2a2ad8c3e8925e5c095"
+  integrity sha512-4OuSOlFNkiVFVc3khkeG112Pdu1gbitMj7t9B9ENb61uFmN70Jq7Iluhi3oflcSgexkKfDdJ5XAJET2gEq6ikA==
+
+underscore@~1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.7.0.tgz#6bbaf0877500d36be34ecaa584e0db9fef035209"
+  integrity sha512-cp0oQQyZhUM1kpJDLdGO1jPZHgS/MpzoWYfe9+CM2h/QGDZlqwT2T3YGukuBdaNJ/CAPoeyAZRRHz8JFo176vA==
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
