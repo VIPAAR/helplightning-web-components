@@ -43,10 +43,6 @@ class PaginationGrid extends Component {
     }
   }
 
-  componentDidUpdate () {
-    this.state.gridApi && this.state.gridApi.sizeColumnsToFit()
-  }
-
   getRows = (params) => {
     if (!this.props.cache) {
       return []
@@ -54,7 +50,6 @@ class PaginationGrid extends Component {
     this.props.cache.fetchData(params.startRow, params.endRow)
       .then((entries) => {
         params.successCallback(entries, this.props.cache.total)
-        setTimeout(() => this.state.gridApi.sizeColumnsToFit(), 200)
         return entries
       }).catch((err) => {
         console.log('getRows error')
@@ -91,7 +86,11 @@ class PaginationGrid extends Component {
     }
     params.columnApi.setColumnsVisible(columnsToShow, true)
     params.columnApi.setColumnsVisible(columnsToHide, false)
-    params.api.sizeColumnsToFit()
+    try {
+      params.api.sizeColumnsToFit()
+    } catch (e) {
+      // ignore
+    }
   }
 
   getRowStyle = ({ node }) => {
