@@ -7,6 +7,7 @@
 import axios from 'axios';
 
 import TokenExpiredException from './exceptions/TokenExpiredException';
+import LinkType from './types/LinkType';
 
 class HelpLightningClient {
   HelpLightningClient(host, apikey, token,
@@ -64,6 +65,26 @@ class HelpLightningClient {
 
   }
 
+  /**
+   * Create a new Session Link
+   *
+   * linkType:: types.LinkType
+   */
+  createSessionLink(linkType) {
+    return this._request.post('/api/v1/sessions/link', {
+      'linkTypeStr': linkType
+    }, {
+      headers: {
+        'Authorization': self._token
+      }
+    });
+  }
+
+  /**
+   * Refresh our token.
+   *
+   * This is typically used internally automatically
+   */
   refreshToken() {
     if (this._refreshToken) {
       this._request.post('/api/v1/auth/refresh', {
