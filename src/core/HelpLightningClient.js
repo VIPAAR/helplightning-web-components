@@ -7,62 +7,64 @@
 import axios from 'axios';
 
 import TokenExpiredException from './exceptions/TokenExpiredException';
-import LinkType from './types/LinkType';
+import {} from './types/LinkType';
 
 class HelpLightningClient {
-  HelpLightningClient(host, apikey, token,
-                      refershToken = null, logoutHandler = null) {
-    this._host = host;
-    this._apikey = apikey;
-    this._token = token;
-    this._refreshToken = refreshToken;
-    this._logoutHandler = logoutHandler;
+  HelpLightningClient(
+    host,
+    apikey,
+    token,
+    refreshToken = null,
+    logoutHandler = null,
+  ) {
+    this.host = host;
+    this.apikey = apikey;
+    this.token = token;
+    this.refreshToken = refreshToken;
+    this.logoutHandler = logoutHandler;
 
     // create a request handler
-    this._request = axios.create({
-      baseURL: this._host,
+    this.request = axios.create({
+      baseURL: this.host,
       timeout: 120000,
       headers: {
-        'x-helplightning-api-key': this._apiKey,
-        'Content-type': 'application/json; charset=utf-8'
-      }
+        'x-helplightning-api-key': this.apiKey,
+        'Content-type': 'application/json; charset=utf-8',
+      },
     });
     // set up some interceptors
-    this._request.interceptors.response.use(
-      (response) => {
-        return response
-      },
+    this.request.interceptors.response.use(
+      (response) => response,
       async (error) => {
         const originalRequest = error.config;
         if (error.response?.status === 400) {
           // check the code of the response body
           if (error.response?.data?.code === 1003) {
             // refresh our token
-            return refreshToken()
+            return this.refreshAuthToken()
               .then(() => {
                 // update the headers
-                originalRequest.headers['Authorization'] = self._token;
-                return this._request(originalRequest);
-              })
+                originalRequest.headers.Authorization = this.token;
+                return this.request(originalRequest);
+              });
           }
         } else if (error.response?.status === 401) {
           // possibly an expired token
-          if (error.response?.data === "Authorization token is expired, please refresh the token") {
+          if (error.response?.data === 'Authorization token is expired, please refresh the token') {
             // refresh our token
-            return refreshToken()
+            return this.refreshAuthToken()
               .then(() => {
                 // update the headers
-                originalRequest.headers['Authorization'] = self._token;
-                return this._request(originalRequest);
-              })
+                originalRequest.headers.Authorization = this.token;
+                return this.request(originalRequest);
+              });
           }
         }
 
         // raise this up
         return Promise.reject(error);
-      }
+      },
     );
-
   }
 
   /**
@@ -71,12 +73,12 @@ class HelpLightningClient {
    * linkType:: types.LinkType
    */
   createSessionLink(linkType) {
-    return this._request.post('/api/v1/sessions/link', {
-      'linkTypeStr': linkType
+    return this.request.post('/api/v1/sessions/link', {
+      linkTypeStr: linkType,
     }, {
       headers: {
-        'Authorization': self._token
-      }
+        Authorization: this.token,
+      },
     });
   }
 
@@ -85,22 +87,22 @@ class HelpLightningClient {
    *
    * This is typically used internally automatically
    */
-  refreshToken() {
-    if (this._refreshToken) {
-      this._request.post('/api/v1/auth/refresh', {
-        'refresh_token': this._refreshToken
+  refreshAuthToken() {
+    if (this.refreshToken) {
+      return this.request.post('/api/v1/auth/refresh', {
+        refresh_token: this.refreshToken,
       }, {
         headers: {
-          'Authorization': self._token
-        }
-      });
-    } else {
-      Promise.reject(new TokenExpiredException("Token Expired")).finally(() => {
-        if (this._logoutHandler) {
-          this._logoutHandler();
-        }
+          Authorization: this.token,
+        },
       });
     }
+
+    return Promise.reject(new TokenExpiredException('Token Expired')).finally(() => {
+      if (this.logoutHandler) {
+        this.logoutHandler();
+      }
+    });
   }
 }
 
