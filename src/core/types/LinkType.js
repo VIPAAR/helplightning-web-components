@@ -4,8 +4,10 @@
  * License: MIT
  */
 
-export default LinkType = {
+const LinkType = {
   MyHelpSpace: 'mhs',
   OneTimeUse: 'otu',
-  ThirdPartyInvite: 'tpi'
+  ThirdPartyInvite: 'tpi',
 };
+
+export default LinkType;
