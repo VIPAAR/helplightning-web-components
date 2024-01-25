@@ -21,8 +21,8 @@ yarn install || exit
 
 # pipe the error output to /dev/null
 # For some reason, it breaks travis?
-yarn build 2> /dev/null
-yarn deploy 2> /dev/null
+yarn build
+yarn deploy
 
 # cp the dist to the top level
 cp helplightning-web-components-${VER}.tgz /root/helplightning-web-components/helplightning-web-components-${VER}.tar.gz
