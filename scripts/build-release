@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+#
+# Build a release an upload it to S3
+#
+
+# bomb if something doesn't return a 0 status
+set -ev
+
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 VERSION BASE_IMAGE"
+    exit 1;
+fi
+
+VER=$1
+HL_BASE=$2
+
+# location of travis-helper-scripts
+THS=$(pwd)/travis-helper-scripts/bin
+
+# Move to the build directory
+mkdir -p ~/build/VIPAAR/ci/release || exit 1
+pushd ~/build/VIPAAR/ci/release/ || exit 1
+
+# Create a clone of the git repository
+git clone ~/build/VIPAAR/helplightning-web-components helplightning-web-components || exit 1
+
+# create directory for holding our temp files
+mkdir docker || exit 1
+
+# copy the scripts into it
+cp helplightning-web-components/scripts/release/{Dockerfile,build-release} docker/ || exit 1
+
+# enter the docker directory and build docker
+pushd docker || exit 1
+
+${THS}/ecr-pull helplightning-base:nodejs-build-${HL_BASE} helplightning-base:nodejs-build-${HL_BASE} || exit 1;
+
+# now build
+docker build --build-arg HL_BASE=${HL_BASE} -t helplightning-web-components-release-builder:latest . || exit 1;
+docker create --name helplightning-web-components-release-builder-inst helplightning-web-components-release-builder:latest /root/build-release /root/helplightning-web-components $VER || exit 1;
+
+# copy the clean citron git repo into docker
+docker cp ../helplightning-web-components helplightning-web-components-release-builder-inst:/root/helplightning-web-components || exit 1;
+
+# copy the ssh config into docker so that we can pull our deps
+docker cp ~/.ssh/config helplightning-web-components-release-builder-inst:/root/.ssh/config
+docker cp ~/.ssh/id_rsa helplightning-web-components-release-builder-inst:/root/.ssh/id_rsa
+
+# start docker which runs the build-release script and exits
+docker start -a helplightning-web-components-release-builder-inst || exit 1;
+
+# copy the build back over as helplightning-web-components
+docker cp helplightning-web-components-release-builder-inst:/root/helplightning-web-components/helplightning-web-components-${VER}.tar.gz helplightning-web-components-${VER}.tar.gz || exit 1;
+
+# upload to S3
+$THS/upload-public-resource npm helplightning-web-components-${VER}.tar.gz || exit 1;
+
+
+popd; # leave docker
+popd; # leave the release directory
+

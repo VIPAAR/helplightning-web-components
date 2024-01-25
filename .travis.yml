@@ -1,0 +1,25 @@
+language: node_js
+dist: jammy
+node_js:
+  - '20'
+services:
+  - docker
+env:
+  global:
+    - HL_BASE_IMAGE="1.0.0-20230215-3"
+before_install:
+  - pip install --user awscli
+  - npm install -g yarn
+install:
+  - yarn install
+  
+script:
+  - yarn lint
+
+after_success:
+  - if [ "x$TRAVIS_TAG" != "x" ]; then
+    VER=$TRAVIS_TAG;
+    git clone git@github.com:VIPAAR/travis-helper-scripts.git travis-helper-scripts || exit 1;
+    ./scripts/build-release $VER $HL_BASE_IMAGE;
+    fi
+
