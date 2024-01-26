@@ -1,0 +1,27 @@
+## the src folder
+src
+scripts
+
+.babelrc
+
+## node modules folder
+node_modules
+
+## incase you have a git repositiory initiated
+.git
+.gitignore
+CVS
+.svn
+.hg
+.lock-wscript
+.wafpickle-N
+.DS_Store
+npm-debug.log
+.npmrc
+.travis.yml
+.editorconfig
+.eslisntrc.js
+
+config.gypi
+package-lock.json
+yarn.lock

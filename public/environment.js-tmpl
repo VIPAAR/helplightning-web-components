@@ -1,0 +1,6 @@
+// URLs have NO trailing slash
+var environment = {
+  API_KEY: "",
+  GALDR_URL: "https://api.helplightning.net"
+};
+window.environment = environment;
