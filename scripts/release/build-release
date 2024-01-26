@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#
+
+# bomb if something doesn't return a 0 status
+set -ev
+
+# fix ssh
+chown -R root /root/.ssh
+chmod 0700 /root/.ssh
+chmod 0600 /root/.ssh/*
+
+# cd into the source directory
+pushd $1
+VER=$2
+
+# install yarn
+npm install -g yarn
+
+# build in production
+yarn install || exit
+
+# pipe the error output to /dev/null
+# For some reason, it breaks travis?
+yarn build
+yarn deploy
+
+# cp the dist to the top level
+cp helplightning-web-components-${VER}.tgz /root/helplightning-web-components/helplightning-web-components-${VER}.tar.gz
+
+popd
