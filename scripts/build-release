@@ -33,7 +33,7 @@ cp helplightning-web-components/scripts/release/{Dockerfile,build-release} docke
 # enter the docker directory and build docker
 pushd docker || exit 1
 
-${THS}/ecr-pull helplightning-base:nodejs-build-${HL_BASE} helplightning-base:nodejs-build-${HL_BASE} || exit 1;
+${THS}/ecr-pull helplightning-base:nodejs20-build-${HL_BASE} helplightning-base:nodejs20-build-${HL_BASE} || exit 1;
 
 # now build
 docker build --build-arg HL_BASE=${HL_BASE} -t helplightning-web-components-release-builder:latest . || exit 1;
