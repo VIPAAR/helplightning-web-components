@@ -1,5 +1,5 @@
-ARG HL_BASE=20190926-1
-FROM helplightning-base:nodejs-build-${HL_BASE}
+ARG HL_BASE=20240226-1
+FROM helplightning-base:nodejs20-build-${HL_BASE}
 
 RUN apk --no-cache add bash git openssh
 
