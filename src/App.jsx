@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import logo from './public/banner.png';
 import { Modal } from 'react-bootstrap';
-import Invite from './src/features/invite/components/Invite';
-import Login from './src/features/auth/Login';
+import logo from '../public/banner.png';
+import Invite from './core/features/invite/components/Invite';
+import Login from './core/features/auth/Login';
 import './App.scss';
-import { user } from './src/features/auth/auth';
+import { user } from './core/features/auth/auth';
 import i18n from './i18n';
 import HelpLightningClient from './core/HelpLightningClient';
 
@@ -22,7 +22,6 @@ function App() {
   }
 
   const invite = (values, onSuccess, onFailure) => {
-    console.log('Inviting user', values);
     onSuccess();
     closeInviteModal();
   }
@@ -31,8 +30,8 @@ function App() {
     host,
     apikey,
     token,
-    refreshToken = null,
-    logoutHandler = null
+    refreshToken,
+    logoutHandler
   )
 
   return (
@@ -42,7 +41,8 @@ function App() {
         <p>
           Helplightning Components
         </p>
-        { currentUser?.token ?
+        { currentUser?.token
+          ? (
           <Modal show={showInviteModal} onHide={closeInviteModal}>
             <Modal.Header closeButton>
               <Modal.Title>My Help Space</Modal.Title>
@@ -55,7 +55,7 @@ function App() {
                 t={i18n.t}
               />
             </Modal.Body>
-          </Modal> : <Login t={i18n.t}/>
+          </Modal>) : <Login t={i18n.t}/>
         }
       </header>
     </div>
