@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   Form,
   FormControl,
@@ -6,51 +7,64 @@ import {
   ControlLabel,
   Button,
   ButtonGroup,
-  Col
-} from 'react-bootstrap'
+  Col,
+} from 'react-bootstrap';
 
 const defaultState = {
   name: { value: '', error: null, touched: false },
   email: { value: '', error: null, touched: false },
   phone: { value: '', error: null, touched: false },
   message: { value: '', error: null, touched: false },
-  oneTime: { value: false, error: null, touched: false }
-}
+  oneTime: { value: false, error: null, touched: false },
+};
 
-const mergeStateWithValues = (state, values) => {
-  return Object.keys(state).reduce((acc, key) => {
-    return {
-      ...acc,
-      [key]: {
-        ...state[key],
-        value: values[key]
-      }
-    }
-  }, {});
-}
+const mergeStateWithValues = (state, values) => Object.keys(state).reduce((acc, key) => ({
+  ...acc,
+  [key]: {
+    ...state[key],
+    value: values[key],
+  },
+}), {});
 
 const pickValues = (state) => {
-  const { name, email, phone, message, oneTime } = state;
-  return { name: name.value, email: email.value, phone: phone.value, message: message.value, oneTime: oneTime.value }
-}
+  const {
+    name, email, phone, message, oneTime,
+  } = state;
+  return {
+    name: name.value,
+    email: email.value,
+    phone: phone.value,
+    message: message.value,
+    oneTime: oneTime.value,
+  };
+};
 
-function InviteForm({ onClose, onSubmit, generateLink, t, oneTimeEnabled, initialValues, validators, sent, inviteLink, handleCopy }) {
+function InviteForm({
+  onClose,
+  onSubmit,
+  generateLink,
+  t,
+  oneTimeEnabled,
+  initialValues,
+  validators,
+  sent,
+  inviteLink,
+  handleCopy,
+}) {
   const [fields, setFields] = useState(mergeStateWithValues(defaultState, initialValues));
 
-  const onChange = (field) => {
-    return (e) => {
-      const value = e.target.value;
-      const error = validators && validators[field] && validators[field](value, pickValues(fields));
-      setFields({
-        ...fields,
-        [field]: {
-          ...fields[field],
-          value,
-          error,
-          touched: true
-        }
-      });
-    };
+  const onChange = (field) => (e) => {
+    const { value } = e.target;
+    const error = validators && validators[field] && validators[field](value, pickValues(fields));
+    setFields({
+      ...fields,
+      [field]: {
+        ...fields[field],
+        value,
+        error,
+        touched: true,
+      },
+    });
   };
 
   const onLinkTypeChange = (e) => {
@@ -60,8 +74,8 @@ function InviteForm({ onClose, onSubmit, generateLink, t, oneTimeEnabled, initia
       oneTime: {
         ...fields.oneTime,
         value,
-        touched: true
-      }
+        touched: true,
+      },
     });
     generateLink(value);
   };
@@ -73,14 +87,14 @@ function InviteForm({ onClose, onSubmit, generateLink, t, oneTimeEnabled, initia
     const values = pickValues(fields);
     const newFields = Object.keys(fields).reduce((acc, key) => {
       const error = validators && validators[key] && validators[key](fields[key].value, values);
-      error && (hasError = true);
+      hasError = !!error;
       return {
         ...acc,
         [key]: {
           ...fields[key],
           error,
-          touched: true
-        }
+          touched: true,
+        },
       };
     }, {});
 
@@ -90,7 +104,7 @@ function InviteForm({ onClose, onSubmit, generateLink, t, oneTimeEnabled, initia
       onSubmit(values);
       setFields(defaultState);
     }
-  }
+  };
 
   return (
     <Form horizontal className="InviteForm" onSubmit={handleSubmit}>
@@ -99,8 +113,8 @@ function InviteForm({ onClose, onSubmit, generateLink, t, oneTimeEnabled, initia
           <ControlLabel className="col-sm-2">{t('Name')}</ControlLabel>
           <Col sm={10}>
             <FormControl value={fields.name.value} onChange={onChange('name')} type="text" placeholder={t('Name (optional)')} />
-            {fields.name.touched && fields.name.error &&
-              <span className="error">{fields.name.error}</span>}
+            {fields.name.touched && fields.name.error
+              && <span className="error">{fields.name.error}</span>}
           </Col>
         </FormGroup>
 
@@ -108,8 +122,8 @@ function InviteForm({ onClose, onSubmit, generateLink, t, oneTimeEnabled, initia
           <ControlLabel className="col-sm-2">{t('Email')}</ControlLabel>
           <Col sm={10}>
             <FormControl value={fields.email.value} onChange={onChange('email')} type="email" placeholder={t('Participant email')} />
-            {fields.email.touched && fields.email.error &&
-              <span className="error">{fields.email.error}</span>}
+            {fields.email.touched && fields.email.error
+              && <span className="error">{fields.email.error}</span>}
           </Col>
         </FormGroup>
 
@@ -117,8 +131,8 @@ function InviteForm({ onClose, onSubmit, generateLink, t, oneTimeEnabled, initia
           <ControlLabel className="col-sm-2">{t('Phone')}</ControlLabel>
           <Col sm={10}>
             <FormControl value={fields.phone.value} onChange={onChange('phone')} type="text" placeholder={t('Participant Phone Number')} />
-            {fields.phone.touched && fields.phone.error &&
-              <span className="error">{fields.phone.error}</span>}
+            {fields.phone.touched && fields.phone.error
+              && <span className="error">{fields.phone.error}</span>}
           </Col>
         </FormGroup>
 
@@ -126,34 +140,38 @@ function InviteForm({ onClose, onSubmit, generateLink, t, oneTimeEnabled, initia
           <ControlLabel className="col-sm-2">{t('Message')}</ControlLabel>
           <Col sm={10}>
             <FormControl value={fields.message.value} onChange={onChange('message')} type="textarea" placeholder={t('Custom message (optional; added to email only)')} />
-            {fields.message.touched && fields.message.error &&
-              <span className="error">{fields.message.error}</span>}
+            {fields.message.touched && fields.message.error
+              && <span className="error">{fields.message.error}</span>}
           </Col>
         </FormGroup>
 
-        {oneTimeEnabled &&
+        {oneTimeEnabled
+          && (
           <FormGroup>
             <Col sm={10} xsOffset={2}>
               <FormControl
                 className="onetime-checkbox"
-                type="checkbox" checked={fields.oneTime.value}
+                type="checkbox"
+                checked={fields.oneTime.value}
                 onChange={onLinkTypeChange}
                 defaultChecked={initialValues.oneTime}
               />
               <ControlLabel className="onetime-checkbox-label">{t('Send invitation for one-time use')}</ControlLabel>
             </Col>
           </FormGroup>
-        }
+          )}
 
         <FormGroup validationState={fields.phone.touched && fields.phone.error ? 'error' : null}>
           <ControlLabel className="col-sm-2">{t('Link')}</ControlLabel>
           <Col sm={10}>
             <div className="invite-link">
               {inviteLink && (
-                <Fragment>
+                <>
                   {inviteLink}
-                  { handleCopy ? <i className="far fa-copy " onClick={handleCopy} /> : null }
-                </Fragment>
+                  {
+                    handleCopy ? <i className="far fa-copy " onClick={handleCopy} /> : null // eslint-disable-line
+                  }
+                </>
               )}
               {inviteLink ? null : <i className="fa fa-spinner fa-spin" />}
             </div>
@@ -169,5 +187,38 @@ function InviteForm({ onClose, onSubmit, generateLink, t, oneTimeEnabled, initia
     </Form>
   );
 }
+
+InviteForm.defaultProps = {
+  oneTimeEnabled: false,
+  initialValues: {},
+  validators: {},
+  sent: false,
+  inviteLink: '',
+  handleCopy: null,
+};
+
+InviteForm.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  generateLink: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  oneTimeEnabled: PropTypes.bool,
+  initialValues: PropTypes.shape({
+    name: PropTypes.string,
+    email: PropTypes.string,
+    phone: PropTypes.string,
+    message: PropTypes.string,
+    oneTime: PropTypes.bool,
+  }),
+  validators: PropTypes.shape({
+    name: PropTypes.func,
+    email: PropTypes.func,
+    phone: PropTypes.func,
+    message: PropTypes.func,
+  }),
+  sent: PropTypes.bool,
+  inviteLink: PropTypes.string,
+  handleCopy: PropTypes.func,
+};
 
 export default InviteForm;

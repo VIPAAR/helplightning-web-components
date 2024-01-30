@@ -1,31 +1,31 @@
-import { isValidPhoneNumber, emptyPhone } from "./phoneNumber"
+import { isValidPhoneNumber, emptyPhone } from './phoneNumber';
 
-export function dialCodePhoneNumber (t, value, values) {
-  return (value, values) => isValidPhoneNumber(value) ? null : t('This is not a valid phone number')
+export function dialCodePhoneNumber(t) {
+  return (value) => (isValidPhoneNumber(value) ? null : t('This is not a valid phone number'));
 }
 
-export function meetInviteEmail (t, value, values) {
+export function meetInviteEmail(t) {
   return (value, values) => {
-    let error = null
+    let error = null;
     if (!value && emptyPhone(values.phone)) {
-      error = t('Email and Phone cannot be left blank at the same time')
+      error = t('Email and Phone cannot be left blank at the same time');
     } else if (value && value.length > 255) {
-      error = t('Max character limit is 255')
+      error = t('Max character limit is 255');
     } else if (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-      error = t('Invalid email address')
+      error = t('Invalid email address');
     }
-    return error
-  }
+    return error;
+  };
 }
 
-export function string255NotRequired (t, value, values) {
-  return (value, values) => {
-    let error = null
+export function string255NotRequired(t) {
+  return (value) => {
+    let error = null;
     if (value && value.length > 255) {
-      error = t('Max character limit is 255')
+      error = t('Max character limit is 255');
     } else if (/[<>]/.test(value)) {
-      error = t('< and > characters not allowed')
+      error = t('< and > characters not allowed');
     }
-    return error
-  }
+    return error;
+  };
 }
