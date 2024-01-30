@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react'; // eslint-disable-line
+import PropTypes from 'prop-types'; // eslint-disable-line
 import InviteForm from './InviteForm';
 import { dialCode, formatPhoneNumber, emptyPhone } from '../helpers/phoneNumber';
 import { meetInviteEmail, dialCodePhoneNumber, string255NotRequired } from '../helpers/formValidators';

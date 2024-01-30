@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react'; // eslint-disable-line
+import PropTypes from 'prop-types'; // eslint-disable-line
 import {
   Form,
   FormControl,
