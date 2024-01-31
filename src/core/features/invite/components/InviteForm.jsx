@@ -87,7 +87,7 @@ function InviteForm({
     const values = pickValues(fields);
     const newFields = Object.keys(fields).reduce((acc, key) => {
       const error = validators && validators[key] && validators[key](fields[key].value, values);
-      hasError = !!error;
+      hasError = hasError || !!error;
       return {
         ...acc,
         [key]: {
