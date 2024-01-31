@@ -34,18 +34,15 @@ function Invite({
   const generateLink = (isOtuLink = true) => {
     const linkType = isOtuLink ? 'otu' : 'mhs';
 
-    client.getSessionLink(linkType).then(({ data: { signature, link } }) => {
+    client.createSessionLink(linkType).then(({ data: { signature, link } }) => {
       setInviteLinkObj({ inviteLink: link, signature });
     }).catch(() => {
       setInviteLinkObj({ inviteLink: '', signature: '' });
     });
   };
+
   useEffect(() => {
-    generateLink(initialOneTime).then(({ data: { signature, link } }) => {
-      setInviteLinkObj({ inviteLink: link, signature });
-    }).catch(() => {
-      setInviteLinkObj({ inviteLink: '', signature: '' });
-    });
+    generateLink(initialOneTime);
   }, []);
 
   const onInvitationSuccess = () => {
