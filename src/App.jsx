@@ -2,8 +2,8 @@ import React from 'react';
 import { Modal } from 'react-bootstrap';
 import Invite from './core/features/invite/components/Invite';
 import './App.scss';
-import i18n from './i18n';
-import HelpLightningClient from './core/HelpLightningClient';
+import i18n from './i18n'; // eslint-disable-line
+import HelpLightningClient from './core/HelpLightningClient'; // eslint-disable-line
 
 function App() {
   const [showInviteModal, setShowInviteModal] = React.useState(true);
