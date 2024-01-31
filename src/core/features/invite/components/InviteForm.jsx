@@ -40,7 +40,7 @@ const pickValues = (state) => {
 };
 
 function InviteForm({
-  onClose,
+  onCancel,
   onSubmit,
   generateLink,
   t,
@@ -180,7 +180,7 @@ function InviteForm({
       </div>
       <FormGroup>
         <ButtonGroup>
-          <Button onClick={onClose} type="button" disabled={sent}>{t('Cancel')}</Button>
+          <Button onClick={onCancel} type="button" disabled={sent}>{t('Cancel')}</Button>
           <Button primary type="submit" disabled={sent}>{t('Send Invite')}</Button>
         </ButtonGroup>
       </FormGroup>
@@ -198,7 +198,7 @@ InviteForm.defaultProps = {
 };
 
 InviteForm.propTypes = {
-  onClose: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   generateLink: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
