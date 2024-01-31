@@ -7,7 +7,7 @@ import './Invite.scss';
 
 function Invite({
   client,
-  onClose,
+  onCancel,
   t,
   oneTimeEnabled,
   initialOneTime,
@@ -34,18 +34,15 @@ function Invite({
   const generateLink = (isOtuLink = true) => {
     const linkType = isOtuLink ? 'otu' : 'mhs';
 
-    client.getSessionLink(linkType).then(({ data: { signature, link } }) => {
+    client.createSessionLink(linkType).then(({ data: { signature, link } }) => {
       setInviteLinkObj({ inviteLink: link, signature });
     }).catch(() => {
       setInviteLinkObj({ inviteLink: '', signature: '' });
     });
   };
+
   useEffect(() => {
-    generateLink(initialOneTime).then(({ data: { signature, link } }) => {
-      setInviteLinkObj({ inviteLink: link, signature });
-    }).catch(() => {
-      setInviteLinkObj({ inviteLink: '', signature: '' });
-    });
+    generateLink(initialOneTime);
   }, []);
 
   const onInvitationSuccess = () => {
@@ -124,7 +121,7 @@ function Invite({
   return (
     <div>
       <InviteForm
-        onClose={onClose}
+        onCancel={onCancel}
         onSubmit={onSubmit}
         generateLink={generateLink}
         inviteLink={inviteLinkObj.inviteLink}
@@ -149,7 +146,7 @@ Invite.defaultProps = {
 
 Invite.propTypes = {
   client: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  onClose: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   t: PropTypes.func,
   oneTimeEnabled: PropTypes.bool,
   initialOneTime: PropTypes.bool,

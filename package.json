@@ -13,6 +13,9 @@
     "bc-countries": "2.0.0",
     "country-language": "0.1.7",
     "google-libphonenumber": "3.2.24",
+    "prop-types": "^15.8.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "ramda": "^0.29.0",
     "react-bootstrap": "0.33",
     "react-redux": "^8.0.1",
@@ -71,10 +74,5 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4"
-  },
-  "peerDependencies": {
-    "prop-types": "^15.8.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
   }
 }

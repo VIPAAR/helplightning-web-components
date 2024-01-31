@@ -10,15 +10,15 @@ import TokenExpiredException from './exceptions/TokenExpiredException';
 import {} from './types/LinkType';
 
 class HelpLightningClient {
-  HelpLightningClient(
+  constructor(
     host,
-    apikey,
+    apiKey,
     token,
     refreshToken = null,
     logoutHandler = null,
   ) {
     this.host = host;
-    this.apikey = apikey;
+    this.apiKey = apiKey;
     this.token = token;
     this.refreshToken = refreshToken;
     this.logoutHandler = logoutHandler;
@@ -50,7 +50,7 @@ class HelpLightningClient {
           }
         } else if (error.response?.status === 401) {
           // possibly an expired token
-          if (error.response?.data === 'Authorization token is expired, please refresh the token') {
+          if (error.response?.data === 'Token expired') { // Check by error message is terribly unreliable.
             // refresh our token
             return this.refreshAuthToken()
               .then(() => {
@@ -74,7 +74,26 @@ class HelpLightningClient {
    */
   createSessionLink(linkType) {
     return this.request.post('/api/v1/sessions/link', {
-      linkTypeStr: linkType,
+      linkType,
+    }, {
+      headers: {
+        Authorization: this.token,
+      },
+    });
+  }
+
+  /**
+   * Create a new Session Link
+   */
+  inviteToSession(name, message, inviteLink, signature, linkType, email, phone) {
+    return this.request.post('/api/v1/sessions/link/invite', {
+      recipientName: name,
+      message,
+      invite: inviteLink,
+      signature,
+      linkType,
+      recipientEmail: email,
+      recipientPhoneNumber: phone,
     }, {
       headers: {
         Authorization: this.token,
@@ -95,10 +114,13 @@ class HelpLightningClient {
         headers: {
           Authorization: this.token,
         },
+      }).then((response) => {
+        this.token = response.data.token;
+        this.refreshToken = response.data.refresh_token;
       });
     }
 
-    return Promise.reject(new TokenExpiredException('Token Expired')).finally(() => {
+    return Promise.reject(new TokenExpiredException('Token Expired1')).finally(() => {
       if (this.logoutHandler) {
         this.logoutHandler();
       }
