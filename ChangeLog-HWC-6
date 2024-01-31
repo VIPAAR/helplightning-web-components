@@ -1,4 +1,7 @@
 2024-01-31  Xeon Wang  <xeon.wang@helplightning.com>
+	* HWC-10 - Remove test app and restore dependencies position
+
+2024-01-31  Xeon Wang  <xeon.wang@helplightning.com>
 	* HWC-11 - Export Invite component
 
 2024-01-31  Xeon Wang  <xeon.wang@helplightning.com>
