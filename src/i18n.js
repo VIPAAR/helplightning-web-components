@@ -1,5 +1,5 @@
-import i18n from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18n from 'i18next'; // eslint-disable-line
+import LanguageDetector from 'i18next-browser-languagedetector'; // eslint-disable-line
 
 import translationUS from './locales/en_US/translation.json';
 
