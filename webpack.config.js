@@ -5,7 +5,8 @@ module.exports = {
   mode: isDev ? 'development' : 'production',
 
   entry: {
-    "HelpLightningClient": ['./src/core/HelpLightningClient.js']
+    "HelpLightningClient": ['./src/core/HelpLightningClient.js'],
+    "invite": ['./src/core/features/invite/components/Invite']
   },
 
   output: {
