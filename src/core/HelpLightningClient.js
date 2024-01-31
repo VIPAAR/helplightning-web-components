@@ -120,7 +120,7 @@ class HelpLightningClient {
       });
     }
 
-    return Promise.reject(new TokenExpiredException('Token Expired1')).finally(() => {
+    return Promise.reject(new TokenExpiredException('Token Expired')).finally(() => {
       if (this.logoutHandler) {
         this.logoutHandler();
       }
