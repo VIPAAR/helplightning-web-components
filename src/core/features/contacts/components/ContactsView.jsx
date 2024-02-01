@@ -6,28 +6,9 @@ import TeamView from './TeamView';
 import FavoritesView from './FavoritesView';
 import DirectoryView from './DirectoryView';
 import PersonalView from './PersonalView';
-import defaultTrans from '../../defaultTrans';
 import './Contacts.scss';
 
 class ContactsView extends Component {
-  static propTypes = {
-    client: PropTypes.object.isRequired,
-    activeKey: PropTypes.string,
-    currentUser: PropTypes.object,
-    showPersonal: PropTypes.bool,
-    showDirectory: PropTypes.bool,
-    onInviteUserClick: PropTypes.func,
-    callContact: PropTypes.func.isRequired,
-    callGroup: PropTypes.func.isRequired,
-    showModal: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired,
-    router: PropTypes.object,
-  };
-
-  static defaultProps = {
-    t: defaultTrans,
-  };
-
   constructor(props) {
     super(props);
 
@@ -44,6 +25,7 @@ class ContactsView extends Component {
         </Button>
       );
     }
+    return null;
   };
 
   handleSelect = (key) => {
@@ -155,5 +137,19 @@ class ContactsView extends Component {
     return null;
   }
 }
+
+ContactsView.propTypes = {
+  client: PropTypes.object.isRequired,
+  activeKey: PropTypes.string,
+  currentUser: PropTypes.object,
+  showPersonal: PropTypes.bool,
+  showDirectory: PropTypes.bool,
+  onInviteUserClick: PropTypes.func,
+  callContact: PropTypes.func.isRequired,
+  callGroup: PropTypes.func.isRequired,
+  showModal: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
+  router: PropTypes.object,
+};
 
 export default ContactsView;

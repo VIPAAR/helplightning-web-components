@@ -159,7 +159,7 @@ class BaseContactsView extends Component {
                 t={t}
                 parentClassName={this.viewName}
                 customColumns={{
-                  avatar: { cellRendererParams: { defaultAvatar: getDefaultAvatar(currentUser) } }
+                  avatar: { cellRendererParams: { defaultAvatar: getDefaultAvatar(currentUser) } },
                 }}
               />
             )
@@ -177,9 +177,9 @@ BaseContactsView.propTypes = {
   callContact: PropTypes.func.isRequired,
   chatContact: PropTypes.func,
   callGroup: PropTypes.func.isRequired,
+  onCallUnreachedUser: PropTypes.func.isRequired,
   enterpriseContactVersion: PropTypes.number,
-  showModal: PropTypes.func.isRequired,
-  sendOTUInvitation: PropTypes.func.isRequired,
+  sendOTUInvitation: PropTypes.func.isRequired, // eslint-disable-line
   t: PropTypes.func,
 };
 
