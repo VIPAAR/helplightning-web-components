@@ -22,5 +22,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'react/destructuring-assignment': 0,
+    'react/forbid-prop-types': 0,
   },
 };
