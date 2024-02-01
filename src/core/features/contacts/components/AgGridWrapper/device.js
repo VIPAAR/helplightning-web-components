@@ -1,9 +1,5 @@
-export const isUserDevice = (user) => {
-  return (
-    user && user.license === 'device'
-  )
-}
+export const isUserDevice = (user) => (
+  user && user.license === 'device'
+);
 
-export const isTouchScreenDevice = () => {
-  return window.matchMedia('(pointer: coarse)').matches
-}
+export const isTouchScreenDevice = () => window.matchMedia('(pointer: coarse)').matches;

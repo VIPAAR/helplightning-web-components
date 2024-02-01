@@ -1,178 +1,190 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+/* eslint-disable react/no-unused-state, react/no-unused-class-component-methods */
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
   AgGridHeader,
   AgGridContent,
   ServerSearch,
-  PaginationGrid
-} from './AgGridWrapper'
-import MultiPaginationCache from '../helpers/MultiPaginationCache'
-import { getDefaultAvatar } from '../helpers/account'
-import defaultTrans from '../../defaultTrans'
-import './TeamView.scss'
+  PaginationGrid,
+} from './AgGridWrapper';
+import MultiPaginationCache from '../helpers/MultiPaginationCache';
+import { getDefaultAvatar } from '../helpers/account';
+import './TeamView.scss';
 
 class BaseContactsView extends Component {
-  static propTypes = {
-    active: PropTypes.bool,
-    currentUser: PropTypes.object,
-    callContact: PropTypes.func.isRequired,
-    chatContact: PropTypes.func,
-    callGroup: PropTypes.func.isRequired,
-    enterpriseContactVersion: PropTypes.number,
-    showModal: PropTypes.func.isRequired,
-    sendOTUInvitation: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired
-  }
-
-  static defaultProps = {
-    t: defaultTrans
-  }
-
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       filter: '',
-      caches: this.buildCaches()
-    }
-    this.refreshWhenChange = false
+      caches: this.buildCaches(),
+    };
+    this.refreshWhenChange = false;
   }
 
-  UNSAFE_componentWillReceiveProps (nextProps) {
-    const actived = nextProps.active && nextProps.active !== this.props.active
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { active } = this.props;
+    const actived = nextProps.active && nextProps.active !== active;
     if (this.needRefreshData(nextProps) || actived) {
-      this.refreshData()
+      this.refreshData();
     }
   }
 
   needRefreshData = (nextProps) => {
-    const { currentUser: { currentWorkspaceId } } = this.props
-    const nextWorkspaceId = nextProps.currentUser.currentWorkspaceId
+    const { currentUser: { currentWorkspaceId }, enterpriseContactVersion } = this.props;
+    const nextWorkspaceId = nextProps.currentUser.currentWorkspaceId;
     return (
-      nextProps.enterpriseContactVersion !== this.props.enterpriseContactVersion ||
-      currentWorkspaceId !== nextWorkspaceId
-    )
-  }
+      nextProps.enterpriseContactVersion !== enterpriseContactVersion
+      || currentWorkspaceId !== nextWorkspaceId
+    );
+  };
 
-  buildCaches = () => {
-    return new MultiPaginationCache([])
-  }
+  buildCaches = () => new MultiPaginationCache([]);
 
   onCallClick = (data) => {
-    const dialer = this.props.currentUser
+    const {
+      currentUser, callGroup, onCallUnreachedUser, callContact,
+    } = this.props;
     if (data.isGroup || data.on_call_group) {
-      this.props.callGroup({
+      callGroup({
         groupId: data.id,
         groupName: data.name,
-        enterpriseId: data.enterprise_id || this.props.currentUser.enterprise_id,
-        audioOnly: data.audioOnly
-      }, dialer)
+        enterpriseId: data.enterprise_id || currentUser.enterprise_id,
+        audioOnly: data.audioOnly,
+      }, currentUser);
     } else if (!data.reachable) {
-      this.props.onCallUnreachedUser(data, dialer)
+      onCallUnreachedUser(data, currentUser);
     } else {
-      this.props.callContact(data, dialer)
+      callContact(data, currentUser);
     }
-  }
+  };
 
-  onChatClick = (data) => {
-    this.props.chatContact(data)
-  }
+  onChatClick = (data) => { // eslint-disable-line
+    const { chatContact } = this.props;
+    chatContact(data);
+  };
 
-  changeFavorite = (e, id, state, data) => {
-    e.stopPropagation()
-    let request = null
+  changeFavorite = (e, id, state, data) => { // eslint-disable-line
+    const { client } = this.props;
+    const { gridApi } = this.state;
+    e.stopPropagation();
+    let request = null;
     if (data.isGroup || data.on_call_group) {
-      request = state ? this.props.client.addToGroupFavorite(id)
-        : this.props.client.removeFromGroupFavorite(id)
+      request = state ? client.addToGroupFavorite(id)
+        : client.removeFromGroupFavorite(id);
     } else {
-      request = state ? this.props.client.addToFavorite(id)
-        : this.props.client.removeFromFavorite(id)
+      request = state ? client.addToFavorite(id)
+        : client.removeFromFavorite(id);
     }
-    request.then((resp) => {
+    request.then(() => {
       if (this.refreshWhenChange) {
-        this.refreshData()
+        this.refreshData();
       } else {
-        const node = this.state.gridApi.getRowNode(id)
+        const node = gridApi.getRowNode(id);
         if (node) {
-          node.setData({ ...data, favorite: !data.favorite })
+          node.setData({ ...data, favorite: !data.favorite });
         }
       }
-    })
-  }
+    });
+  };
 
   onGridReady = (params) => {
-    this.setState({ gridApi: params.api })
-  }
+    this.setState({ gridApi: params.api });
+  };
 
   onSearch = (value) => {
-    this.setState({ filter: value, caches: this.buildCaches() })
-    if (this.state.gridApi) {
-      this.state.gridApi.purgeInfiniteCache()
+    const { gridApi } = this.state;
+    this.setState({ filter: value, caches: this.buildCaches() });
+    if (gridApi) {
+      gridApi.purgeInfiniteCache();
     }
-  }
+  };
 
   refreshData = () => {
+    const { gridApi } = this.state;
     this.setState({ caches: this.buildCaches() }, () => {
-      if (this.state.gridApi) {
-        this.state.gridApi.purgeInfiniteCache()
+      if (gridApi) {
+        gridApi.purgeInfiniteCache();
       }
-    })
-  }
+    });
+  };
 
-  rowClass (params) {
-    const classes = []
+  rowClass(params) {
+    const classes = [];
     if (params.data) {
-      const onCallGroup = params.data.isGroup || params.data.on_call_group
+      const onCallGroup = params.data.isGroup || params.data.on_call_group;
       if (onCallGroup) {
-        classes.push('onCallGroupRow')
+        classes.push('onCallGroupRow');
       } else if (!params.data.reachable) {
-        classes.push('unreachableRow')
+        classes.push('unreachableRow');
       }
-      classes.push('paginationGridRow')
+      classes.push('paginationGridRow');
       if (params.data.license === 'device') {
-        classes.push('device-license')
+        classes.push('device-license');
       }
       if (!params.data.supports_messaging) {
-        classes.push('can-not-message')
+        classes.push('can-not-message');
       }
-      return classes.join(' ')
+      return classes.join(' ');
     }
+    return '';
   }
 
-  render () {
-    const { t, currentUser } = this.props
+  render() {
+    const { t, currentUser } = this.props;
+    const { caches } = this.state;
     const columns = [
       { key: 'avatar', label: t('Avatar') },
       { key: 'nameDetails', label: t('Name'), showIfNotSignIn: true },
       { key: 'makeCall', label: t('Call') },
-      { key: 'favorite', label: t('Favorite') }
-    ]
-    const context = { componentParent: this }
+      { key: 'favorite', label: t('Favorite') },
+    ];
+    const context = { componentParent: this };
     return (
       <div className={`${this.viewName}`}>
         <AgGridHeader>
           <ServerSearch onChange={this.onSearch} />
         </AgGridHeader>
         <AgGridContent>
-          { this.state.caches
-            ? <PaginationGrid
-              cache={this.state.caches}
-              columns={columns}
-              id={`hlGrid${this.viewName}`}
-              getRowClass={this.rowClass}
-              context={context}
-              onGridReady={this.onGridReady}
-              autoHideColumns={false}
-              showHeaders={false}
-              t={t}
-              parentClassName={this.viewName}
-              customColumns={{ avatar: { cellRendererParams: { defaultAvatar: getDefaultAvatar(currentUser) } } }}
-            />
-            : <i className="fa fa-spinner fa-pulse fa-fw fa-3x" />
-          }
+          { caches
+            ? (
+              <PaginationGrid
+                cache={caches}
+                columns={columns}
+                id={`hlGrid${this.viewName}`}
+                getRowClass={this.rowClass}
+                context={context}
+                onGridReady={this.onGridReady}
+                autoHideColumns={false}
+                showHeaders={false}
+                t={t}
+                parentClassName={this.viewName}
+                customColumns={{
+                  avatar: { cellRendererParams: { defaultAvatar: getDefaultAvatar(currentUser) } }
+                }}
+              />
+            )
+            : <i className="fa fa-spinner fa-pulse fa-fw fa-3x" />}
         </AgGridContent>
       </div>
-    )
+    );
   }
 }
 
-export default BaseContactsView
+BaseContactsView.propTypes = {
+  client: PropTypes.object.isRequired, // eslint-disable-line
+  active: PropTypes.bool,
+  currentUser: PropTypes.object,
+  callContact: PropTypes.func.isRequired,
+  chatContact: PropTypes.func,
+  callGroup: PropTypes.func.isRequired,
+  enterpriseContactVersion: PropTypes.number,
+  showModal: PropTypes.func.isRequired,
+  sendOTUInvitation: PropTypes.func.isRequired,
+  t: PropTypes.func,
+};
+
+BaseContactsView.defaultProps = {
+  t: (key) => key,
+};
+
+export default BaseContactsView;

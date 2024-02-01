@@ -1,38 +1,37 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   ControlLabel,
   FormControl,
-  FormGroup
-} from 'react-bootstrap'
+  FormGroup,
+} from 'react-bootstrap';
 
 class ServerSearch extends React.Component {
   static propTypes = {
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
   }
 
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      timeout: null
+      timeout: null,
     }
   }
 
   onChange = (e) => {
-    const val = e.target.value
-    this.setState(state => {
+    const val = e.target.value;
+    this.setState((state) => {
       if (state.timeout) {
-        clearTimeout(state.timeout)
+        clearTimeout(state.timeout);
       }
       const timeout = setTimeout(() => {
-        this.props.onChange(val)
-      }, 250)
-      return { timeout }
-    })
-  }
+        this.props.onChange(val);
+      }, 250);
+      return { timeout };
+    });
+  };
 
-  render = () => (
-    <FormGroup className="filter-text-box">
+  render() { return <FormGroup className="filter-text-box">
       <ControlLabel>{'Search'}</ControlLabel>
       <FormControl
         type="text"
@@ -41,8 +40,8 @@ class ServerSearch extends React.Component {
         placeholder=""
         autoFocus
       />
-    </FormGroup>
-  )
+    </FormGroup>; }
+  );
 }
 
-export default ServerSearch
+export default ServerSearch;

@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
-import './AgGridWrapper.scss'
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import './AgGridWrapper.scss';
 
 export default class AgGridContent extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
-    ])
-  }
+      PropTypes.node,
+    ]),
+  };
 
-  render () {
+  render() {
     return (
       <div className="AgGridWrapper">
         <div className="row">
@@ -23,6 +23,6 @@ export default class AgGridContent extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }

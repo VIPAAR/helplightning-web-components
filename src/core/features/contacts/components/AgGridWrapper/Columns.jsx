@@ -2,11 +2,11 @@ import {
   CallSubmenuButtonRenderer,
   AvatarImageRenderer,
   HlFavoriteIconRenderer,
-  NameDetailsRenderer
-} from './CellRenderers.jsx'
+  NameDetailsRenderer,
+} from './CellRenderers.jsx';
 
 const GetColumn = (col, t, customColumns) => {
-  let colConfig
+  let colConfig;
   switch (col.key) {
     case 'avatar':
       colConfig = {
@@ -19,9 +19,9 @@ const GetColumn = (col, t, customColumns) => {
         minWidth: 70,
         width: 70,
         suppressSizeToFit: true,
-        sortable: false
-      }
-      return (customColumns && customColumns.avatar) ? { ...colConfig, ...customColumns.avatar } : colConfig
+        sortable: false,
+      };
+      return (customColumns && customColumns.avatar) ? { ...colConfig, ...customColumns.avatar } : colConfig;
     case 'makeCall':
       return {
         headerName: '',
@@ -33,8 +33,8 @@ const GetColumn = (col, t, customColumns) => {
         minWidth: 290,
         maxWidth: 290,
         width: 290,
-        sortable: false
-      }
+        sortable: false,
+      };
     case 'favorite':
       return {
         field: 'favorite',
@@ -44,8 +44,8 @@ const GetColumn = (col, t, customColumns) => {
         maxWidth: 120,
         width: 120,
         resizable: false,
-        sortable: false
-      }
+        sortable: false,
+      };
     case 'nameDetails':
       return {
         field: 'name',
@@ -58,8 +58,8 @@ const GetColumn = (col, t, customColumns) => {
         filter: 'agTextColumnFilter',
         cellRenderer: 'nameDetailsRenderer',
         showIfNotSignIn: col.showIfNotSignIn,
-        cellClass: (p) => (`${p.data && !p.data.reachable ? 'unreachableText' : ''} nameDetailsCell`)
-      }
+        cellClass: (p) => (`${p.data && !p.data.reachable ? 'unreachableText' : ''} nameDetailsCell`),
+      };
     default:
       return {
         field: col.key,
@@ -68,16 +68,16 @@ const GetColumn = (col, t, customColumns) => {
         suppressMenu: true,
         resizable: true,
         sortable: true,
-        filter: 'agTextColumnFilter'
-      }
+        filter: 'agTextColumnFilter',
+      };
   }
-}
+};
 
 const FrameworkComponents = {
   callSubmenuButtonRenderer: CallSubmenuButtonRenderer,
   avatarImageRenderer: AvatarImageRenderer,
   hlFavoriteIconRenderer: HlFavoriteIconRenderer,
-  nameDetailsRenderer: NameDetailsRenderer
-}
+  nameDetailsRenderer: NameDetailsRenderer,
+};
 
-export { GetColumn, FrameworkComponents }
+export { GetColumn, FrameworkComponents };

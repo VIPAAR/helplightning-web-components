@@ -1,24 +1,22 @@
-import PaginationCache from '../helpers/PaginationCache'
-import MultiPaginationCache from '../helpers/MultiPaginationCache'
-import './TeamView.scss'
-import BaseContactsView from './BaseContactsView'
+import PaginationCache from '../helpers/PaginationCache';
+import MultiPaginationCache from '../helpers/MultiPaginationCache';
+import './TeamView.scss';
+import BaseContactsView from './BaseContactsView';
 
 class TeamView extends BaseContactsView {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       filter: '',
-      caches: this.buildCaches()
-    }
-    this.viewName = 'TeamView'
+      caches: this.buildCaches(),
+    };
+    this.viewName = 'TeamView';
   }
 
-  buildCaches = () => {
-    return new MultiPaginationCache([
-      new PaginationCache(20, (page, pageSize) => this.props.client.fetchOnCallGroup(this.state.filter, page, pageSize)),
-      new PaginationCache(20, (page, pageSize) => this.props.client.fetchTeam(this.state.filter, page, pageSize))
-    ])
-  }
+  buildCaches = () => new MultiPaginationCache([
+    new PaginationCache(20, (page, pageSize) => this.props.client.fetchOnCallGroup(this.state.filter, page, pageSize)),
+    new PaginationCache(20, (page, pageSize) => this.props.client.fetchTeam(this.state.filter, page, pageSize)),
+  ]);
 }
 
-export default TeamView
+export default TeamView;
