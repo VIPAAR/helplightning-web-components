@@ -31,9 +31,7 @@ class PaginationGrid extends Component {
       .then((entries) => {
         params.successCallback(entries, this.props.cache.total);
         return entries;
-      }).catch((err) => {
-        console.log('getRows error');
-        console.log(err);
+      }).catch(() => {
         this.setState({
           error: true,
           errorMessage: 'Could not retrieve data, try refreshing page',

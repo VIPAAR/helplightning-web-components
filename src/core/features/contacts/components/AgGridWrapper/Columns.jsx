@@ -3,7 +3,7 @@ import {
   AvatarImageRenderer,
   HlFavoriteIconRenderer,
   NameDetailsRenderer,
-} from './CellRenderers.jsx';
+} from './CellRenderers';
 
 const GetColumn = (col, t, customColumns) => {
   let colConfig;
@@ -21,7 +21,8 @@ const GetColumn = (col, t, customColumns) => {
         suppressSizeToFit: true,
         sortable: false,
       };
-      return (customColumns && customColumns.avatar) ? { ...colConfig, ...customColumns.avatar } : colConfig;
+      return (customColumns && customColumns.avatar)
+        ? { ...colConfig, ...customColumns.avatar } : colConfig;
     case 'makeCall':
       return {
         headerName: '',

@@ -15,18 +15,29 @@ class FavoritesView extends BaseContactsView {
   }
 
   needRefreshData(nextProps) {
-    const { currentUser: { currentWorkspaceId } } = this.props;
+    const {
+      currentUser: { currentWorkspaceId }, contactVersion, enterpriseContactVersion,
+    } = this.props;
     const nextWorkspaceId = nextProps.currentUser.currentWorkspaceId;
-    const contactChanged = nextProps.contactVersion !== this.props.contactVersion;
+    const contactChanged = nextProps.contactVersion !== contactVersion;
     const workspaceChanged = currentWorkspaceId !== nextWorkspaceId;
-    const enterpriseContactRefresh = nextProps.enterpriseContactVersion !== this.props.enterpriseContactVersion;
-    return (contactChanged || enterpriseContactRefresh || workspaceChanged);
+    const eContactRefresh = nextProps.enterpriseContactVersion !== enterpriseContactVersion;
+    return (contactChanged || eContactRefresh || workspaceChanged);
   }
 
-  buildCaches = () => new MultiPaginationCache([
-    new PaginationCache(20, (page, pageSize) => this.props.client.fetchOnCallGroupFavorite(this.state.filter, page, pageSize)),
-    new PaginationCache(20, (page, pageSize) => this.props.client.fetchFavorite(this.state.filter, page, pageSize)),
-  ]);
+  buildCaches = () => {
+    const { client } = this.props;
+    return new MultiPaginationCache([
+      new PaginationCache(
+        20,
+        (page, pageSize) => client.fetchOnCallGroupFavorite(this.state.filter, page, pageSize),
+      ),
+      new PaginationCache(
+        20,
+        (page, pageSize) => this.props.client.fetchFavorite(this.state.filter, page, pageSize),
+      ),
+    ]);
+  };
 }
 
 export default FavoritesView;

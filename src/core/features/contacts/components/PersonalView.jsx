@@ -30,7 +30,10 @@ class PersonalView extends BaseContactsView {
     }
   }
 
-  buildCache = () => new PaginationCache(20, (page, pageSize) => this.props.client.fetchPersonal(this.state.filter, page, pageSize));
+  buildCache = () => new PaginationCache(
+    20,
+    (page, pageSize) => this.props.client.fetchPersonal(this.state.filter, page, pageSize),
+  );
 
   applySingleChange = (changedContact) => {
     const { contact } = changedContact;

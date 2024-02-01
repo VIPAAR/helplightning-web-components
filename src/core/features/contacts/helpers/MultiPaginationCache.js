@@ -21,7 +21,7 @@ export default class MultiPaginationCache {
     return axios.all(requests).then((results) => [].concat(...results));
   });
 
-  fetchSize = () => new Promise((resolve, reject) => {
+  fetchSize = () => new Promise((resolve) => {
     if (this.total === -1) {
       const requests = this.caches.map((cache) => cache.fetchSize());
       axios.all(requests).then((sizes) => {

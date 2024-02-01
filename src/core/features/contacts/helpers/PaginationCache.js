@@ -27,7 +27,7 @@ export default class PaginationCache {
     }
   });
 
-  fetchPage = (page) => new Promise((resolve, reject) => {
+  fetchPage = (page) => new Promise((resolve) => {
     if (this.pages[page]) {
       resolve(this.pages[page]);
     } else {
@@ -41,17 +41,17 @@ export default class PaginationCache {
 
   fetchPages = (start, end) => {
     const pages = [];
-    for (let page = start; page <= end; page++) {
+    for (let page = start; page <= end; page++) { // eslint-disable-line no-plusplus
       pages.push(this.fetchPage(page));
     }
     return pages;
   };
 
-  fetchData = (start, end) => this.fetchSize().then(() => {
-    start = this.clamp(start, 0, this.total);
-    end = this.clamp(end, 0, this.total);
+  fetchData = (startP, endP) => this.fetchSize().then(() => {
+    const start = this.clamp(startP, 0, this.total);
+    const end = this.clamp(endP, 0, this.total);
     if (start === end) {
-      return new Promise((resolve) => resolve([]));
+      return new Promise((resolve) => resolve([])); // eslint-disable-line
     }
     const p0 = this.getPage(start);
     const p1 = this.getPage(end - 1);

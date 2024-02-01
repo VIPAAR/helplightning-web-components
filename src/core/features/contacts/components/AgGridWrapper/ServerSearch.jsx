@@ -7,15 +7,11 @@ import {
 } from 'react-bootstrap';
 
 class ServerSearch extends React.Component {
-  static propTypes = {
-    onChange: PropTypes.func.isRequired,
-  }
-
   constructor(props) {
     super(props);
     this.state = {
       timeout: null,
-    }
+    };
   }
 
   onChange = (e) => {
@@ -31,17 +27,24 @@ class ServerSearch extends React.Component {
     });
   };
 
-  render() { return <FormGroup className="filter-text-box">
-      <ControlLabel>{'Search'}</ControlLabel>
-      <FormControl
-        type="text"
-        id="filter-text-box"
-        onChange={this.onChange}
-        placeholder=""
-        autoFocus
-      />
-    </FormGroup>; }
-  );
+  render() {
+    return (
+      <FormGroup className="filter-text-box">
+        <ControlLabel>Search</ControlLabel>
+        <FormControl
+          type="text"
+          id="filter-text-box"
+          onChange={this.onChange}
+          placeholder=""
+          autoFocus
+        />
+      </FormGroup>
+    );
+  }
 }
+
+ServerSearch.propTypes = {
+  onChange: PropTypes.func.isRequired,
+};
 
 export default ServerSearch;
