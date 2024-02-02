@@ -46,7 +46,7 @@ class ContactsView extends Component {
             {' '}
             <span>{t('Directory')}</span>
           </div>
-)}
+        )}
       >
         <DirectoryView {...this.props} active={this.state.key === key} />
       </Tab>
@@ -65,7 +65,7 @@ class ContactsView extends Component {
             {' '}
             <span>{t('Personal')}</span>
           </div>
-)}
+        )}
       >
         <PersonalView {...this.props} active={this.state.key === key} />
       </Tab>
@@ -84,7 +84,7 @@ class ContactsView extends Component {
             {' '}
             <span>{t('Team')}</span>
           </div>
-)}
+        )}
       >
         <TeamView {...this.props} active={this.state.key === key} />
       </Tab>
@@ -103,7 +103,7 @@ class ContactsView extends Component {
             {' '}
             <span>{t('Favorites')}</span>
           </div>
-)}
+        )}
       >
         <FavoritesView {...this.props} active={this.state.key === key} />
       </Tab>
@@ -111,43 +111,38 @@ class ContactsView extends Component {
   }
 
   render() {
-    const { currentUser, t } = this.props;
-    if (currentUser.token) {
-      return (
-        <div className="Contacts">
-          <h1>
-            {t('Contacts')}
-            {' '}
-            {this.renderMyHelpSpaceLink()}
-          </h1>
-          <Tabs
-            id="user-tabs"
-            activeKey={this.state.key}
-            onSelect={this.handleSelect}
-            className="container-box"
-          >
-            {this.renderFavTab()}
-            {this.renderTeamTab()}
-            {this.renderPersonalTab()}
-            { this.renderDicTab()}
-          </Tabs>
-        </div>
-      );
-    }
-    return null;
+    const { t } = this.props;
+    return (
+      <div className="Contacts">
+        <h1>
+          {t('Contacts')}
+          {' '}
+          {this.renderMyHelpSpaceLink()}
+        </h1>
+        <Tabs
+          id="user-tabs"
+          activeKey={this.state.key}
+          onSelect={this.handleSelect}
+          className="container-box"
+        >
+          {this.renderFavTab()}
+          {this.renderTeamTab()}
+          {this.renderPersonalTab()}
+          { this.renderDicTab()}
+        </Tabs>
+      </div>
+    );
   }
 }
 
 ContactsView.propTypes = {
   client: PropTypes.object.isRequired,
   activeKey: PropTypes.string,
-  currentUser: PropTypes.object,
   showPersonal: PropTypes.bool,
   showDirectory: PropTypes.bool,
   onInviteUserClick: PropTypes.func,
   callContact: PropTypes.func.isRequired,
   callGroup: PropTypes.func.isRequired,
-  showModal: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
   router: PropTypes.object,
 };

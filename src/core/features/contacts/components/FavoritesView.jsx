@@ -16,13 +16,11 @@ class FavoritesView extends BaseContactsView {
 
   needRefreshData(nextProps) {
     const {
-      currentUser: { currentWorkspaceId }, contactVersion, enterpriseContactVersion,
+      contactVersion, enterpriseContactVersion,
     } = this.props;
-    const nextWorkspaceId = nextProps.currentUser.currentWorkspaceId;
     const contactChanged = nextProps.contactVersion !== contactVersion;
-    const workspaceChanged = currentWorkspaceId !== nextWorkspaceId;
     const eContactRefresh = nextProps.enterpriseContactVersion !== enterpriseContactVersion;
-    return (contactChanged || eContactRefresh || workspaceChanged);
+    return (contactChanged || eContactRefresh);
   }
 
   buildCaches = () => {

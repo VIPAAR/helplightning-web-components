@@ -9,12 +9,12 @@ import './CellRenderers.scss';
 export function CallSubmenuButtonRenderer(x) {
   const { node, data, context: { componentParent } } = x;
   const {
-    currentUser, chatContact, audioPlusEnabled, sendOTUInvitation, t,
+    chatContact, audioPlusEnabled, sendOTUInvitation, t,
   } = componentParent.props;
 
   const handleInviteClick = (e) => {
     e.stopPropagation();
-    sendOTUInvitation(data.id, currentUser.token);
+    sendOTUInvitation(data.id);
   };
 
   const handleVideoClick = (e) => {
