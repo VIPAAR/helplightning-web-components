@@ -6,11 +6,11 @@ module.exports = {
 
   entry: {
     "HelpLightningClient": ['./src/core/HelpLightningClient.js'],
-    "components/invite": ['./src/core/features/invite/components/Invite']
+    "components/Invite": ['./src/core/features/invite/index.js'],
   },
 
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './'),
     filename: '[name].js',
     libraryTarget: 'umd'
   },
