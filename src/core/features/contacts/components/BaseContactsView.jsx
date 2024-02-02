@@ -24,7 +24,7 @@ class BaseContactsView extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { active } = this.props;
     const actived = nextProps.active && nextProps.active !== active;
-    if (this.needRefreshData(nextProps) || actived) {
+    if (actived) {
       this.refreshData();
     }
   }

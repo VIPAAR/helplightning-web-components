@@ -7,6 +7,7 @@ module.exports = {
   entry: {
     "HelpLightningClient": ['./src/core/HelpLightningClient.js'],
     "components/Invite": ['./src/core/features/invite/index.js'],
+    "components/Contacts": ['./src/core/features/contacts/index.js'],
   },
 
   output: {

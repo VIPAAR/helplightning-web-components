@@ -161,10 +161,10 @@ function nonEmptyString(str) {
 }
 
 function NameDetails(data, showIfNotSignIn, t) {
-  const {
-    name, reachable, location, title,
-  } = data;
   if (data) {
+    const {
+      name, reachable, location, title,
+    } = data;
     const nameText = (reachable || !showIfNotSignIn) ? name : `${name} (${t('not_signed_in')})`;
     return (
       <div className="card">
