@@ -5,7 +5,6 @@ import BaseContactsView from './BaseContactsView';
 
 class PersonalView extends BaseContactsView {
   static propTypes = {
-    currentUser: PropTypes.object,
     contactVersion: PropTypes.number.isRequired,
     changedContact: PropTypes.func.isRequired,
   };
@@ -20,13 +19,8 @@ class PersonalView extends BaseContactsView {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { currentUser: { currentWorkspaceId } } = this.props;
-    const nextWorkspaceId = nextProps.currentUser.currentWorkspaceId;
     if (nextProps.contactVersion !== this.props.contactVersion) {
       this.applySingleChange(nextProps.changedContact);
-    }
-    if (currentWorkspaceId !== nextWorkspaceId) {
-      this.refreshData();
     }
   }
 

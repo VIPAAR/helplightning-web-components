@@ -24,37 +24,28 @@ class BaseContactsView extends Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { active } = this.props;
     const actived = nextProps.active && nextProps.active !== active;
-    if (this.needRefreshData(nextProps) || actived) {
+    if (actived) {
       this.refreshData();
     }
   }
-
-  needRefreshData = (nextProps) => {
-    const { currentUser: { currentWorkspaceId }, enterpriseContactVersion } = this.props;
-    const nextWorkspaceId = nextProps.currentUser.currentWorkspaceId;
-    return (
-      nextProps.enterpriseContactVersion !== enterpriseContactVersion
-      || currentWorkspaceId !== nextWorkspaceId
-    );
-  };
 
   buildCaches = () => new MultiPaginationCache([]);
 
   onCallClick = (data) => {
     const {
-      currentUser, callGroup, onCallUnreachedUser, callContact,
+      callGroup, onCallUnreachedUser, callContact,
     } = this.props;
     if (data.isGroup || data.on_call_group) {
       callGroup({
         groupId: data.id,
         groupName: data.name,
-        enterpriseId: data.enterprise_id || currentUser.enterprise_id,
+        enterpriseId: data.enterprise_id,
         audioOnly: data.audioOnly,
-      }, currentUser);
+      });
     } else if (!data.reachable) {
-      onCallUnreachedUser(data, currentUser);
+      onCallUnreachedUser(data);
     } else {
-      callContact(data, currentUser);
+      callContact(data);
     }
   };
 
@@ -130,7 +121,7 @@ class BaseContactsView extends Component {
   }
 
   render() {
-    const { t, currentUser } = this.props;
+    const { t } = this.props;
     const { caches } = this.state;
     const columns = [
       { key: 'avatar', label: t('Avatar') },
@@ -159,7 +150,7 @@ class BaseContactsView extends Component {
                 t={t}
                 parentClassName={this.viewName}
                 customColumns={{
-                  avatar: { cellRendererParams: { defaultAvatar: getDefaultAvatar(currentUser) } },
+                  avatar: { cellRendererParams: { defaultAvatar: getDefaultAvatar() } },
                 }}
               />
             )
@@ -172,13 +163,12 @@ class BaseContactsView extends Component {
 
 BaseContactsView.propTypes = {
   client: PropTypes.object.isRequired, // eslint-disable-line
+
   active: PropTypes.bool,
-  currentUser: PropTypes.object,
   callContact: PropTypes.func.isRequired,
   chatContact: PropTypes.func,
   callGroup: PropTypes.func.isRequired,
   onCallUnreachedUser: PropTypes.func.isRequired,
-  enterpriseContactVersion: PropTypes.number,
   sendOTUInvitation: PropTypes.func.isRequired, // eslint-disable-line
   t: PropTypes.func,
 };

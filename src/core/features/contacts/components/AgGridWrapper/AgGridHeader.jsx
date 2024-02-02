@@ -15,3 +15,5 @@ function AgGridHeader(props) {
 AgGridHeader.propTypes = {
   children: PropTypes.any,
 };
+
+export default AgGridHeader;
