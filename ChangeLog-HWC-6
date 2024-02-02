@@ -1,4 +1,7 @@
 2024-02-02  Xeon Wang  <xeon.wang@helplightning.com>
+	* HWC-17 - Fix default exports
+
+2024-02-02  Xeon Wang  <xeon.wang@helplightning.com>
 	* HWC-13 - HWC-13 - export components path
 
 2024-01-31  Xeon Wang  <xeon.wang@helplightning.com>
