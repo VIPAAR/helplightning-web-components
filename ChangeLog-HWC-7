@@ -1,3 +1,6 @@
+2024-02-08  Xeon Wang  <xeon.wang@helplightning.com>
+	* HWC-18 - Token refresh fails when searching
+
 2024-02-02  Xeon Wang  <xeon.wang@helplightning.com>
 	* HWC-16 - Use HelplightningClient
 
