@@ -175,7 +175,7 @@ class HelpLightningClient {
         },
       }).then((response) => {
         this.token = response.data.token;
-        this.refreshToken = response.data.refresh_token;
+        this.refreshToken = response.data.refresh;
       });
     }
 
