@@ -5,11 +5,12 @@ module.exports = {
   mode: isDev ? 'development' : 'production',
 
   entry: {
-    "HelpLightningClient": ['./src/core/HelpLightningClient.js']
+    "HelpLightningClient": ['./src/core/HelpLightningClient.js'],
+    "components/Invite": ['./src/core/features/invite/index.js'],
   },
 
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './'),
     filename: '[name].js',
     libraryTarget: 'umd'
   },

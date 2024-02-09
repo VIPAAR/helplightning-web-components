@@ -25,3 +25,6 @@ npm-debug.log
 config.gypi
 package-lock.json
 yarn.lock
+
+# any existing releases
+*.tgz
