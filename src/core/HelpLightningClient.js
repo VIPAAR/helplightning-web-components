@@ -101,6 +101,65 @@ class HelpLightningClient {
     });
   }
 
+  fetchData(endpoint, filter, page, pageSize) {
+    const params = { page, page_size: pageSize, search_term: filter };
+    return this.request.get(endpoint, {
+      params,
+      headers: {
+        Authorization: this.token,
+      },
+    });
+  }
+
+  fetchOnCallGroupFavorite(filter, page, pageSize) {
+    return this.fetchData('/api/v1r1/user/search/on_call_group_favorites', filter, page, pageSize);
+  }
+
+  fetchFavorite(filter, page, pageSize) {
+    return this.fetchData('/api/v1r1/user/search/favorites', filter, page, pageSize);
+  }
+
+  fetchOnCallGroup(filter, page, pageSize) {
+    return this.fetchData('/api/v1r1/user/search/on_call_groups', filter, page, pageSize);
+  }
+
+  fetchTeam(filter, page, pageSize) {
+    return this.fetchData('/api/v1r1/user/search/team', filter, page, pageSize);
+  }
+
+  addToFavorite(id) {
+    return this.request.post('/api/v1/favorites', { id }, {
+      headers: {
+        Authorization: this.token,
+      },
+    });
+  }
+
+  removeFromFavorite(id) {
+    return this.request.delete('/api/v1/favorites', {
+      params: { id },
+      headers: {
+        Authorization: this.token,
+      },
+    });
+  }
+
+  addToGroupFavorite(id) {
+    return this.request.post(`/api/v1/on_call_groups/${id}/favorites`, {}, {
+      headers: {
+        Authorization: this.token,
+      },
+    });
+  }
+
+  removeFromGroupFavorite(id) {
+    return this.request.delete(`/api/v1/on_call_groups/${id}/favorites`, {}, {
+      headers: {
+        Authorization: this.token,
+      },
+    });
+  }
+
   /**
    * Refresh our token.
    *
@@ -116,7 +175,7 @@ class HelpLightningClient {
         },
       }).then((response) => {
         this.token = response.data.token;
-        this.refreshToken = response.data.refresh_token;
+        this.refreshToken = response.data.refresh;
       });
     }
 

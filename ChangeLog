@@ -1,3 +1,11 @@
+2024-02-29  Xeon Wang <xeon.wang@helplightning.com> - Merged by Marcus Dillavou  <marcus.dillavou@helplightning.com>
+	* HWC-7 - Create Contacts Component
+		+ HWC-19 - Remove example app
+		+ HWC-18 - Token refresh fails when searching
+		+ HWC-16 - Use HelplightningClient
+		+ HWC-15 - Merge feature/HWC-6
+		+ HWC-14 - Move Contacts component in
+
 2024-02-09  Xeon Wang <xeon.wang@helplightning.com> - Merged by Marcus Dillavou  <marcus.dillavou@helplightning.com>
 	* HWC-6 - Create Invite Component
 		+ HWC-17 - Fix default exports
